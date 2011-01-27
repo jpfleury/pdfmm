@@ -1,0 +1,114 @@
+## Aperçu
+
+pdf-- est un assistant graphique pour (tenter de) réduire la taille d'un fichier PDF.
+
+Voici quelques résultats obtenus avec des fichiers PDF choisis au hasard:
+
+| Taille au départ | Taille à la sortie | % d'optimisation |
+| ---------------- | ------------------ | ---------------- |
+| 29 Kio           | 23 Kio             | 20%              |
+| 733 Kio          | 658 Kio            | 10%              |
+| 991 Kio          | 349 Kio            | 65%              |
+| 1,7 Mio          | 0,8 Mio            | 52%              |
+| 1,9 Mio          | 1,1 Mio            | 40%              |
+| 2,3 Mio          | 1,6 Mio            | 31%              |
+| 3,4 Mio          | 1,3 Mio            | 60%              |
+| 7,1 Mio          | 5,4 Mio            | 23%              |
+| 14,8 Mio         | 9,4 Mio            | 36%              |
+| 54,3 Mio         | 14,6 Mio           | 73%              |
+
+Bien sûr, ces chiffres sont donnés seulement à titre d'exemples. Le résultat ne sera sûrement pas le même avec d'autres fichiers de même taille. Tout dépend du contenu.
+
+## Dépendances
+
+pdf-- est un script shell (Bash) dépendant de zenity et de ghostscript.
+
+## Installation
+
+- [Télécharger l'archive de la dernière version.](http://www.jpfleury.net/site/fichiers/pdf--/pdf--.zip)
+- Décompresser l'archive.
+
+Ces deux étapes peuvent être effectuées dans une console sous GNU/Linux:
+
+	wget http://www.jpfleury.net/site/fichiers/pdf--/pdf--.zip
+	unzip pdf--.zip
+
+### Utilisateur courant
+
+Le script est prêt à être utilisé par l'utilisateur courant.
+
+### Tous les utilisateurs
+
+Pour rendre accessible le script à tous les utilisateurs, ajouter le fichier `pdf--` dans le dossier `/usr/bin/` (nécessite d'avoir les droits d'administration):
+
+	sudo cp pdf--/pdf-- /usr/bin/
+
+Dans ce cas, le dossier `pdf--` créé par l'extraction de l'archive peut être effacé ou mis à la corbeille après la copie.
+
+## Désinstallation
+
+### Utilisateur courant
+
+Supprimer simplement le dossier `pdf--`.
+
+### Tous les utilisateurs
+
+Supprimer le fichier précédemment copié dans `/usr/bin/` (nécessite d'avoir les droits d'administration):
+
+	sudo rm /usr/bin/pdf--
+
+## Utilisation
+
+Note: une icône apparaît dans la zone de notification tant que le script est en fonction. Passer le curseur au-dessus de l'icône affiche le nom du fichier en cours d'optimisation.
+
+### Utilisateur courant
+
+Pour utiliser le script dans une console, lancer le fichier `pdf--` en précisant son chemin d'accès:
+
+	chemin/vers/pdf--
+
+Si vous vous trouvez dans le même dossier que le fichier `pdf--`, la commande est:
+
+	./pdf--
+
+Dans tous les cas, il est possible de préciser en argument le fichier PDF à optimiser, par exemple:
+
+	./pdf-- fichier.pdf
+
+Il est également possible d'ouvrir le script en cliquant sur le fichier `pdf--` (simple clic ou double clic selon votre configuration) et en choisissant de le lancer.
+
+Vous pouvez également créer un lanceur dont la commande correspond au chemin absolu vers le fichier, par exemple:
+
+	/home/NOM/chemin/vers/pdf--
+
+### Tous les utilisateurs
+
+Dans une console, simplement saisir `pdf--`. Le fichier PDF à optimiser peut être précisé en argument.
+
+Un lanceur peut également être créé. Dans ce cas, la commande est simplement `pdf--`.
+
+## Développement
+
+Le logiciel bazaar est utilisé pour le versionnage des fichiers. Une copie de la version de développement peut être récupérée avec la commande suivante:
+
+	bzr branch lp:~jpfle/+junk/pdf--
+
+## Licence
+
+Auteur: Jean-Philippe Fleury <contact@jpfleury.net>  
+Copyright © Jean-Philippe Fleury
+
+Ce programme est un logiciel libre; vous pouvez le redistribuer ou le
+modifier suivant les termes de la GNU General Public License telle que
+publiée par la Free Software Foundation: soit la version 3 de cette
+licence, soit (à votre gré) toute version ultérieure.
+
+Ce programme est distribué dans l'espoir qu'il vous sera utile, mais SANS
+AUCUNE GARANTIE: sans même la garantie implicite de COMMERCIALISABILITÉ
+ni d'ADÉQUATION À UN OBJECTIF PARTICULIER. Consultez la Licence publique
+générale GNU pour plus de détails.
+
+Vous devriez avoir reçu une copie de la Licence publique générale GNU avec
+ce programme; si ce n'est pas le cas, consultez
+<http://www.gnu.org/licenses/>.
+
