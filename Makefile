@@ -32,7 +32,7 @@ archive: changelog versionTxt
 	bzr export -r tag:$(version) $(dossierPub)
 	cp doc/ChangeLog $(dossierPub)/doc
 	cp doc/version.txt $(dossierPub)/doc
-	mv $(dossierPub)/pdf--.sh $(dossierPub)/pdf
+	mv $(dossierPub)/pdf--.sh $(dossierPub)/pdf--
 	rm -f $(dossierPub)/Makefile
 	zip -qr pdf--.zip $(dossierPub)
 	rm -rf $(dossierPub)
