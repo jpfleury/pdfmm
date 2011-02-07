@@ -70,6 +70,16 @@ if [ ${PIPESTATUS[0]} -ne 0 ]; then
 	exit 1
 fi
 
-zenity --info --text="Réduction de la taille du fichier suivant terminée:\n$pdfAreduire\n\nLe nouveau fichier optimisé est:\n$pdfReduit"
+tailleDepart=$(stat --format=%s "$pdfAreduire")
+tailleDepartFormatee=$(ls -hl "$pdfAreduire" | cut -d ' ' -f 5)
+tailleSortie=$(stat --format=%s "$pdfReduit")
+tailleSortieFormatee=$(ls -hl "$pdfReduit" | cut -d ' ' -f 5)
+pourcentageOptimisation=$(echo "(($tailleDepart - $tailleSortie) / $tailleDepart) * 100" | bc -l | cut -d '.' -f 1)
+
+if [ -z $pourcentageOptimisation ] || [ $pourcentageOptimisation == "-" ]; then
+	pourcentageOptimisation=0
+fi
+
+zenity --info --text="Réduction de la taille du fichier suivant terminée:\n$pdfAreduire\n\nLe nouveau fichier optimisé est:\n$pdfReduit\n\nStatistiques:\n- taille de départ: $tailleDepartFormatee\n- taille de sortie: $tailleSortieFormatee\n- pourcentage d'optimisation: $pourcentageOptimisation%"
 exit 0
 
