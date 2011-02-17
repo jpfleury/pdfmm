@@ -8,7 +8,7 @@
 cheminBureau:=$(shell xdg-user-dir DESKTOP)
 
 # Dossier de publication.
-dossierPub=pdf--
+dossierPub=pdfmm
 
 # Dernière version, représentée par la dernière étiquette.
 version:=$(shell bzr tags | sort -k2n,2n | tail -n 1 | cut -d ' ' -f 1)
@@ -32,9 +32,9 @@ archive: changelog versionTxt
 	bzr export -r tag:$(version) $(dossierPub)
 	cp doc/ChangeLog $(dossierPub)/doc
 	cp doc/version.txt $(dossierPub)/doc
-	mv $(dossierPub)/pdf--.sh $(dossierPub)/pdf--
+	mv $(dossierPub)/pdfmm.sh $(dossierPub)/pdfmm
 	rm -f $(dossierPub)/Makefile
-	zip -qr pdf--.zip $(dossierPub)
+	zip -qr pdfmm.zip $(dossierPub)
 	rm -rf $(dossierPub)
 
 changelog:
@@ -44,10 +44,10 @@ changelog:
 fichiersSurBureau: archive
 	cp doc/ChangeLog $(cheminBureau)
 	cp doc/LISEZ-MOI.mdtxt $(cheminBureau)
-	mv pdf--.zip $(cheminBureau)
+	mv pdfmm.zip $(cheminBureau)
 
 push:
-	bzr push lp:~jpfle/+junk/pdf--
+	bzr push lp:~jpfle/+junk/pdfmm
 
 versionTxt:
 	echo $(version) > doc/version.txt

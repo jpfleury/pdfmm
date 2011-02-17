@@ -1,8 +1,8 @@
 ## Aperçu
 
-pdf-- est un assistant graphique pour (tenter de) réduire la taille d'un fichier PDF.
+pdfmm (pour «pdf moins moins», ou «pdf--») est un assistant graphique pour réduire la taille d'un fichier PDF.
 
-<img class="imgCentre" src="http://www.jpfleury.net/site/fichiers/pdf--/exemple1.png" width="446" height="287" alt="Assistant graphique de réduction de la taille des fichiers PDF" />
+<img class="imgCentre" src="http://www.jpfleury.net/site/fichiers/pdfmm/exemple1.png" width="446" height="287" alt="Assistant graphique de réduction de la taille des fichiers PDF" />
 
 Voici quelques résultats obtenus avec des fichiers PDF choisis au hasard:
 
@@ -24,17 +24,17 @@ Bien sûr, ces chiffres sont donnés seulement à titre d'exemples. Le résultat
 
 ## Dépendances
 
-pdf-- est un script shell (Bash) dépendant de zenity et de ghostscript.
+pdfmm est un script shell (Bash) dépendant de zenity et de ghostscript.
 
 ## Installation
 
-- [Télécharger l'archive de la dernière version.](http://www.jpfleury.net/site/fichiers/pdf--/pdf--.zip)
+- [Télécharger l'archive de la dernière version.](http://www.jpfleury.net/site/fichiers/pdfmm/pdfmm.zip)
 - Décompresser l'archive.
 
 Ces deux étapes peuvent être effectuées dans une console sous GNU/Linux:
 
-	wget http://www.jpfleury.net/site/fichiers/pdf--/pdf--.zip
-	unzip pdf--.zip
+	wget http://www.jpfleury.net/site/fichiers/pdfmm/pdfmm.zip
+	unzip pdfmm.zip
 
 ### Utilisateur courant
 
@@ -42,23 +42,23 @@ Le script est prêt à être utilisé par l'utilisateur courant.
 
 ### Tous les utilisateurs
 
-Pour rendre accessible le script à tous les utilisateurs, ajouter le fichier `pdf--` dans le dossier `/usr/bin/` (nécessite d'avoir les droits d'administration):
+Pour rendre accessible le script à tous les utilisateurs, ajouter le fichier `pdfmm` dans le dossier `/usr/bin/` (nécessite d'avoir les droits d'administration):
 
-	sudo cp pdf--/pdf-- /usr/bin/
+	sudo cp pdfmm/pdfmm /usr/bin/
 
-Dans ce cas, le dossier `pdf--` créé par l'extraction de l'archive peut être effacé ou mis à la corbeille après la copie.
+Dans ce cas, le dossier `pdfmm` créé par l'extraction de l'archive peut être effacé ou mis à la corbeille après la copie.
 
 ## Désinstallation
 
 ### Utilisateur courant
 
-Supprimer simplement le dossier `pdf--`.
+Supprimer simplement le dossier `pdfmm`.
 
 ### Tous les utilisateurs
 
 Supprimer le fichier précédemment copié dans `/usr/bin/` (nécessite d'avoir les droits d'administration):
 
-	sudo rm /usr/bin/pdf--
+	sudo rm /usr/bin/pdfmm
 
 ## Utilisation
 
@@ -69,35 +69,35 @@ Supprimer le fichier précédemment copié dans `/usr/bin/` (nécessite d'avoir 
 
 ### Utilisateur courant
 
-Pour utiliser le script dans une console, lancer le fichier `pdf--` en précisant son chemin d'accès:
+Pour utiliser le script dans une console, lancer le fichier `pdfmm` en précisant son chemin d'accès:
 
-	chemin/vers/pdf--
+	chemin/vers/pdfmm
 
-Si vous vous trouvez dans le même dossier que le fichier `pdf--`, la commande est:
+Si vous vous trouvez dans le même dossier que le fichier `pdfmm`, la commande est:
 
-	./pdf--
+	./pdfmm
 
 Dans tous les cas, il est possible de préciser en argument le fichier PDF à optimiser, par exemple:
 
-	./pdf-- fichier.pdf
+	./pdfmm fichier.pdf
 
-Il est également possible d'ouvrir le script en cliquant sur le fichier `pdf--` (simple clic ou double clic selon votre configuration) et en choisissant de le lancer.
+Il est également possible d'ouvrir le script en cliquant sur le fichier `pdfmm` (simple clic ou double clic selon votre configuration) et en choisissant de le lancer.
 
 Vous pouvez également créer un lanceur dont la commande correspond au chemin absolu vers le fichier, par exemple:
 
-	/home/NOM/chemin/vers/pdf--
+	/home/NOM/chemin/vers/pdfmm
 
 ### Tous les utilisateurs
 
-Dans une console, simplement saisir `pdf--`. Le fichier PDF à optimiser peut être précisé en argument.
+Dans une console, simplement saisir `pdfmm`. Le fichier PDF à optimiser peut être précisé en argument.
 
-Un lanceur peut également être créé. Dans ce cas, la commande est simplement `pdf--`.
+Un lanceur peut également être créé. Dans ce cas, la commande est simplement `pdfmm`.
 
 ## Développement
 
 Le logiciel bazaar est utilisé pour le versionnage des fichiers. Une copie de la version de développement peut être récupérée avec la commande suivante:
 
-	bzr branch lp:~jpfle/+junk/pdf--
+	bzr branch lp:~jpfle/+junk/pdfmm
 
 ## Licence
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Ce fichier fait partie de pdf--.
-# pdf-- est un assistant graphique pour réduire la taille d'un fichier PDF.
+# Ce fichier fait partie de pdfmm.
+# pdfmm est un assistant graphique pour réduire la taille d'un fichier PDF.
 
 # Auteur: Jean-Philippe Fleury <contact@jpfleury.net>
 # Copyright © Jean-Philippe Fleury, 2011.
