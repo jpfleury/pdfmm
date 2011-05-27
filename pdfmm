@@ -20,6 +20,12 @@
 # ce programme; si ce n'est pas le cas, consultez
 # <http://www.gnu.org/licenses/>.
 
+cheminConfig=$HOME/.pdfmm.conf
+
+if [ ! -e "$cheminConfig" ]; then
+	echo "dossier=" > "$cheminConfig"
+fi
+
 if [ -z $(which zenity) ] || [ -z $(which gs) ]; then
 	echo "zenity et ghostscript doivent être installés."
 	exit 1
@@ -28,7 +34,13 @@ fi
 if [ ! -z "$1" ]; then
 	pdfAreduire="$1"
 else
-	pdfAreduire=`zenity --file-selection --title="Sélectionnez un fichier PDF dont la taille doit être réduite"`
+	dossier=$(cat "$cheminConfig" | grep "^dossier=" | cut -f2- -d"=")
+	
+	if [ -z "$dossier" ]; then
+		dossier=$HOME
+	fi
+	
+	pdfAreduire=$(zenity --file-selection --filename="$dossier/" --title="Sélectionnez un fichier PDF dont la taille doit être réduite")
 	
 	if [ $? -ne 0 ]; then
 		zenity --error --text="Aucun fichier PDF sélectionné."
@@ -40,6 +52,10 @@ if [ ! -f "$pdfAreduire" ]; then
 	zenity --error --text="Le fichier précisé n'existe pas ou n'est pas utilisable:\n$pdfAreduire"
 	exit 1
 fi
+
+# Mise à jour de la configuration.
+dossier=$(dirname "$pdfAreduire")
+sed -i "s|^\(dossier=\).*$|\1$dossier|" "$cheminConfig"
 
 ext="${pdfAreduire##*.}" # Si elle existe, l'extension est récupérée pour conserver sa casse («pdf» ou «PDF»).
 

@@ -65,7 +65,14 @@ Supprimer le fichier précédemment copié dans `/usr/bin/` (nécessite d'avoir 
 **Notes:**
 
 - une icône apparaît dans la zone de notification tant que le script est en fonction. Passer le curseur au-dessus de l'icône affiche le nom du fichier en cours d'optimisation;
-- aucun fichier original n'est modifié. Le fichier optimisé est créé dans le même dossier que le fichier original.
+
+- aucun fichier original n'est modifié. Le fichier optimisé est créé dans le même dossier que le fichier original;
+
+- un fichier de configuration est créé dans le dossier personnel de l'utilisateur lançant `pdfmm`:
+
+		/home/utilisateur/.pdfmm.conf
+
+	Ce fichier contient le dossier du dernier fichier sélectionné. C'est ce dossier qui sera proposé par défaut lors de la prochaine ouverture de `pdfmm`.
 
 ### Utilisateur courant
 
@@ -102,7 +109,7 @@ Le logiciel bazaar est utilisé pour le versionnage des fichiers. Une copie de l
 ## Licence
 
 Auteur: Jean-Philippe Fleury <contact@jpfleury.net>  
-Copyright © Jean-Philippe Fleury
+Copyright © Jean-Philippe Fleury, 2011.
 
 Ce programme est un logiciel libre; vous pouvez le redistribuer ou le
 modifier suivant les termes de la GNU General Public License telle que

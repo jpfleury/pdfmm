@@ -10,6 +10,9 @@ cheminBureau:=$(shell xdg-user-dir DESKTOP)
 # Dossier de publication.
 dossierPub=pdfmm
 
+# Dossier temporaire.
+dossierTempo=tmp
+
 # Dernière version, représentée par la dernière étiquette.
 version:=$(shell bzr tags | sort -k2n,2n | tail -n 1 | cut -d ' ' -f 1)
 
@@ -29,13 +32,13 @@ publier: fichiersSurBureau
 ########################################################################
 
 archive: changelog versionTxt
-	bzr export -r tag:$(version) $(dossierPub)
-	cp doc/ChangeLog $(dossierPub)/doc
-	cp doc/version.txt $(dossierPub)/doc
-	mv $(dossierPub)/pdfmm.sh $(dossierPub)/pdfmm
-	rm -f $(dossierPub)/Makefile
-	zip -qr pdfmm.zip $(dossierPub)
-	rm -rf $(dossierPub)
+	mkdir -p $(dossierTempo)
+	bzr export -r tag:$(version) $(dossierTempo)/$(dossierPub)
+	cp doc/ChangeLog $(dossierTempo)/$(dossierPub)/doc
+	cp doc/version.txt $(dossierTempo)/$(dossierPub)/doc
+	rm -f $(dossierTempo)/$(dossierPub)/Makefile
+	cd $(dossierTempo) && zip -qr ../pdfmm.zip $(dossierPub)
+	rm -rf $(dossierTempo)
 
 changelog:
 	# Est basé sur <http://telecom.inescporto.pt/~gjc/gnulog.py>. Ne pas oublier de mettre ce fichier dans le dossier des extensions de bazaar, par exemple `~/.bazaar/plugins/`.
