@@ -28,12 +28,12 @@ pdfmm est un script shell (Bash) dépendant de zenity et de ghostscript.
 
 ## Installation
 
-- [Télécharger l'archive de la dernière version.](http://www.jpfleury.net/t.php?l=pdfmm)
+- [Télécharger l'archive de la dernière version.](http://www.jpfleury.net/site/fichiers/pdfmm/pdfmm.zip)
 - Décompresser l'archive.
 
 Ces deux étapes peuvent être effectuées dans une console sous GNU/Linux:
 
-	wget http://www.jpfleury.net/t.php?l=pdfmm
+	wget http://www.jpfleury.net/site/fichiers/pdfmm/pdfmm.zip
 	unzip pdfmm.zip
 
 ### Utilisateur courant
