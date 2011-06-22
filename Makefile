@@ -46,7 +46,7 @@ changelog:
 
 fichiersSurBureau: archive
 	cp doc/ChangeLog $(cheminBureau)
-	cp doc/LISEZ-MOI.mdtxt $(cheminBureau)
+	cp doc/LISEZ-MOI.mkd $(cheminBureau)
 	mv pdfmm.zip $(cheminBureau)
 
 push:
