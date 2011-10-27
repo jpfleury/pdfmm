@@ -2,7 +2,7 @@
 
 pdfmm (pour «pdf moins moins», ou «pdf--») est un assistant graphique pour réduire la taille d'un fichier PDF.
 
-<img class="imgCentre" src="http://www.jpfleury.net/site/fichiers/pdfmm/exemple1.png" width="446" height="287" alt="Assistant graphique de réduction de la taille des fichiers PDF" />
+<img class="imgCentre" src="http://jpfleury.indefero.net/p/pdfmm/source/tree/master/doc/exemple1.png" width="446" height="287" alt="Assistant graphique de réduction de la taille des fichiers PDF" />
 
 Voici quelques résultats obtenus avec des fichiers PDF choisis au hasard:
 
@@ -28,13 +28,8 @@ pdfmm est un script shell (Bash) dépendant de zenity et de ghostscript.
 
 ## Installation
 
-- [Télécharger l'archive de la dernière version.](http://www.jpfleury.net/site/fichiers/pdfmm/pdfmm.zip)
+- [Télécharger l'archive de la dernière version.](http://jpfleury.indefero.net/p/pdfmm/source/download/master/)
 - Décompresser l'archive.
-
-Ces deux étapes peuvent être effectuées dans une console sous GNU/Linux:
-
-	wget http://www.jpfleury.net/site/fichiers/pdfmm/pdfmm.zip
-	unzip pdfmm.zip
 
 ### Utilisateur courant
 
@@ -42,23 +37,19 @@ Le script est prêt à être utilisé par l'utilisateur courant.
 
 ### Tous les utilisateurs
 
-Pour rendre accessible le script à tous les utilisateurs, ajouter le fichier `pdfmm` dans le dossier `/usr/bin/` (nécessite d'avoir les droits d'administration):
+Pour rendre accessible le script à tous les utilisateurs, ajouter le fichier `pdfmm` dans le dossier `/usr/bin/` (nécessite d'avoir les droits d'administration).
 
-	sudo cp pdfmm/pdfmm /usr/bin/
-
-Dans ce cas, le dossier `pdfmm` créé par l'extraction de l'archive peut être effacé ou mis à la corbeille après la copie.
+Dans ce cas, le dossier créé par l'extraction de l'archive peut être effacé ou mis à la corbeille après la copie.
 
 ## Désinstallation
 
 ### Utilisateur courant
 
-Supprimer simplement le dossier `pdfmm`.
+Supprimer simplement le dossier créé par l'extraction de l'archive.
 
 ### Tous les utilisateurs
 
-Supprimer le fichier précédemment copié dans `/usr/bin/` (nécessite d'avoir les droits d'administration):
-
-	sudo rm /usr/bin/pdfmm
+Supprimer le fichier précédemment copié dans `/usr/bin/` (nécessite d'avoir les droits d'administration).
 
 ## Utilisation
 
@@ -102,9 +93,12 @@ Un lanceur peut également être créé. Dans ce cas, la commande est simplement
 
 ## Développement
 
-Le logiciel bazaar est utilisé pour le versionnage des fichiers. Une copie de la version de développement peut être récupérée avec la commande suivante:
+Le logiciel Git est utilisé pour la gestion de versions. [Le dépôt peut être consulté en ligne ou récupéré en local.][git]
 
-	bzr branch lp:~jpfle/+junk/pdfmm
+pdfmm dispose également d'un [système de suivi], sur lequel les rapports de bogues et les suggestions peuvent être soumis.
+
+[git]: http://jpfleury.indefero.net/p/pdfmm/source/tree/master/
+[système de suivi]: http://jpfleury.indefero.net/p/pdfmm/issues/
 
 ## Licence
 
