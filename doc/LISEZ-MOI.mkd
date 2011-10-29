@@ -6,7 +6,7 @@ pdfmm (pour «pdf moins moins», ou «pdf--») est un assistant graphique pour r
 
 Voici quelques résultats obtenus avec des fichiers PDF choisis au hasard:
 
-| Taille au départ | Taille à la sortie | % d'optimisation |
+| Taille de départ | Taille à la sortie | % d'optimisation |
 | ---------------- | ------------------ | ---------------- |
 | 29 Kio           | 23 Kio             | 20 %             |
 | 363 Kio          | 72 Kio             | 80 %             |
@@ -20,7 +20,7 @@ Voici quelques résultats obtenus avec des fichiers PDF choisis au hasard:
 | 14,8 Mio         | 9,4 Mio            | 36 %             |
 | 54,3 Mio         | 14,6 Mio           | 73 %             |
 
-Bien sûr, ces chiffres sont donnés seulement à titre d'exemples. Le résultat ne sera sûrement pas le même avec d'autres fichiers de même taille. Tout dépend du contenu.
+Bien sûr, ces chiffres sont donnés seulement à titre d'exemples. Le résultat ne sera sûrement pas le même avec d'autres fichiers de taille similaire. Tout dépend du contenu.
 
 ## Dépendances
 
@@ -29,7 +29,8 @@ pdfmm est un script shell (Bash) dépendant de zenity et de ghostscript.
 ## Installation
 
 - [Télécharger l'archive de la dernière version.](http://jpfleury.indefero.net/p/pdfmm/source/download/master/)
-- Décompresser l'archive.
+
+- Extraire l'archive.
 
 ### Utilisateur courant
 
@@ -61,7 +62,7 @@ Supprimer le fichier précédemment copié dans `/usr/bin/` (nécessite d'avoir 
 
 - un fichier de configuration est créé dans le dossier personnel de l'utilisateur lançant `pdfmm`:
 
-		/home/utilisateur/.pdfmm.conf
+		~/.pdfmm.conf
 
 	Ce fichier contient le dossier du dernier fichier sélectionné. C'est ce dossier qui sera proposé par défaut lors de la prochaine ouverture de `pdfmm`.
 
@@ -77,7 +78,7 @@ Si vous vous trouvez dans le même dossier que le fichier `pdfmm`, la commande e
 
 Dans tous les cas, il est possible de préciser en argument le fichier PDF à optimiser, par exemple:
 
-	./pdfmm fichier.pdf
+	./pdfmm chemin/vers/le/fichier.pdf
 
 Il est également possible d'ouvrir le script en cliquant sur le fichier `pdfmm` (simple clic ou double clic selon votre configuration) et en choisissant de le lancer.
 
