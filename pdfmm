@@ -22,19 +22,24 @@
 
 cheminConfig=$HOME/.pdfmm.conf
 
-if [ ! -e "$cheminConfig" ]; then
-	echo "dossier=" > "$cheminConfig"
+if [ ! -e $cheminConfig ]; then
+	echo "dossier=" > $cheminConfig
 fi
 
-if [ -z $(which zenity) ] || [ -z $(which gs) ]; then
+if [ -z $(which zenity) ] && [ -z $(which gs) ]; then
 	echo "zenity et ghostscript doivent être installés."
+	
+	exit 1
+elif [ -z $(which gs) ]; then
+	zenity --error --text="Le paquet «ghostscript» doit être installé."
+	
 	exit 1
 fi
 
-if [ ! -z "$1" ]; then
+if [ -n "$1" ]; then
 	pdfAreduire="$1"
 else
-	dossier=$(cat "$cheminConfig" | grep "^dossier=" | cut -f2- -d"=")
+	dossier=$(cat $cheminConfig | grep "^dossier=" | cut -d '=' -f 2)
 	
 	if [ -z "$dossier" ]; then
 		dossier=$HOME
@@ -44,18 +49,20 @@ else
 	
 	if [ $? -ne 0 ]; then
 		zenity --error --text="Aucun fichier PDF sélectionné."
+		
 		exit 1
 	fi
 fi
 
 if [ ! -f "$pdfAreduire" ]; then
 	zenity --error --text="Le fichier précisé n'existe pas ou n'est pas utilisable:\n$pdfAreduire"
+	
 	exit 1
 fi
 
 # Mise à jour de la configuration.
 dossier=$(dirname "$pdfAreduire")
-sed -i "s|^\(dossier=\).*$|\1$dossier|" "$cheminConfig"
+sed -i "s|^\(dossier=\).*$|\1$dossier|" $cheminConfig
 
 ext="${pdfAreduire##*.}" # Si elle existe, l'extension est récupérée pour conserver sa casse («pdf» ou «PDF»).
 
@@ -66,15 +73,16 @@ else
 fi
 
 if [ -f "$pdfReduit" ]; then
-	zenity --question --text="Le fichier optimisé suivant existe déjà:\n$pdfReduit\n\nVoulez-vous vraiment écraser ce fichier?"
+	zenity --question --text="Le fichier suivant existe déjà:\n$pdfReduit\n\nVoulez-vous vraiment écraser ce fichier?"
 	
 	if [ $? -eq 1 ]; then
 		zenity --info --text="Arrêt du script."
+		
 		exit 0
 	fi
 fi
 
-gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile="$pdfReduit" "$pdfAreduire" | zenity --notification --listen --window-icon="info" --text="Réduction de la taille du fichier suivant en cours: $pdfAreduire"
+(echo "0"; gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile="$pdfReduit" "$pdfAreduire") | zenity --progress --pulsate --no-cancel --auto-close --text="$(echo -en "Réduction de la taille du fichier suivant en cours:\n$pdfAreduire")"
 
 if [ ${PIPESTATUS[0]} -ne 0 ]; then
 	zenity --error --text="Erreur lors de la réduction de la taille du fichier suivant:\n$pdfAreduire"
@@ -97,5 +105,6 @@ if [ -z $pourcentageOptimisation ] || [ $pourcentageOptimisation == "-" ]; then
 fi
 
 zenity --info --text="Réduction de la taille du fichier suivant terminée:\n$pdfAreduire\n\nLe nouveau fichier optimisé est:\n$pdfReduit\n\nStatistiques:\n- taille de départ: $tailleDepartFormatee\n- taille de sortie: $tailleSortieFormatee\n- pourcentage d'optimisation: $pourcentageOptimisation%"
+
 exit 0
 
