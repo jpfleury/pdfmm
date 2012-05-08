@@ -82,7 +82,7 @@ if [ -f "$pdfReduit" ]; then
 	fi
 fi
 
-(echo "0"; gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile="$pdfReduit" "$pdfAreduire") | zenity --progress --pulsate --no-cancel --auto-close --text="$(echo -en "Réduction de la taille du fichier suivant en cours:\n$pdfAreduire")"
+(echo "0"; gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -dPDFSETTINGS=/default -sOutputFile="$pdfReduit" "$pdfAreduire") | zenity --progress --pulsate --no-cancel --auto-close --text="$(echo -en "Réduction de la taille du fichier suivant en cours:\n$pdfAreduire")"
 
 if [ ${PIPESTATUS[0]} -ne 0 ]; then
 	zenity --error --text="Erreur lors de la réduction de la taille du fichier suivant:\n$pdfAreduire"
