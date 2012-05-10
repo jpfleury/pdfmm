@@ -1,8 +1,10 @@
+<p lang="en"><strong><a hreflang="en" href="http://www.jpfleury.net/en/software/pdfmm.php">Read this page in English.</a></strong></p>
+
 ## Aperçu
 
 pdfmm (pour «pdf moins moins», ou «pdf--») est un assistant graphique pour réduire la taille d'un fichier PDF.
 
-<img src="http://jpfleury.indefero.net/p/pdfmm/source/tree/master/doc/exemple1.png" width="446" height="287" alt="Assistant graphique de réduction de la taille des fichiers PDF" />
+<img src="http://jpfleury.indefero.net/p/pdfmm/source/tree/master/doc/exemple1-fr.png" width="446" height="287" alt="Assistant graphique de réduction de la taille des fichiers PDF" />
 
 Voici quelques résultats obtenus avec des fichiers PDF choisis au hasard:
 
@@ -24,7 +26,7 @@ Bien sûr, ces chiffres sont donnés seulement à titre d'exemples. Le résultat
 
 ## Dépendances
 
-pdfmm est un script shell (Bash) dépendant de zenity et de ghostscript.
+pdfmm est un script shell dépendant de bash (>= 4.0), zenity et ghostscript.
 
 ## Installation
 
@@ -50,17 +52,17 @@ Supprimer simplement le dossier créé par l'extraction de l'archive.
 
 ### Tous les utilisateurs
 
-Supprimer le fichier précédemment copié dans `/usr/bin/` (nécessite d'avoir les droits d'administration).
+Supprimer le fichier `pdfmm` précédemment copié dans `/usr/bin/` (nécessite d'avoir les droits d'administration).
 
 ## Utilisation
 
 **Notes:**
 
-- aucun fichier original n'est modifié. Le fichier optimisé est créé dans le même dossier que le fichier original;
+- Aucun fichier original n'est modifié. Le fichier optimisé est créé dans le même dossier que le fichier original.
 
-- un fichier de configuration est créé dans le dossier personnel de l'utilisateur lançant `pdfmm`:
+- Un fichier de configuration est créé dans le dossier personnel de l'utilisateur lançant `pdfmm`:
 
-		~/.pdfmm.conf
+		~/.config/pdfmm.conf
 
 	Ce fichier contient le dossier du dernier fichier sélectionné. C'est ce dossier qui sera proposé par défaut lors de la prochaine ouverture de `pdfmm`.
 
@@ -89,6 +91,10 @@ Vous pouvez également créer un lanceur dont la commande correspond au chemin a
 Dans une console, simplement saisir `pdfmm`. Le fichier PDF à optimiser peut être précisé en argument.
 
 Un lanceur peut également être créé. Dans ce cas, la commande est simplement `pdfmm`.
+
+## Traduction
+
+pdfmm peut s'afficher dans plusieurs langues. Toute personne intéressée à effectuer une traduction peut donc traduire les phrases présentes dans la section *Localisation* du fichier `pdfmm` et m'envoyer le résultat. Pour l'instant, pdfmm est disponible en français et en anglais.
 
 ## Développement
 

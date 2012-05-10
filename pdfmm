@@ -20,91 +20,264 @@
 # ce programme; si ce n'est pas le cas, consultez
 # <http://www.gnu.org/licenses/>.
 
-cheminConfig=$HOME/.pdfmm.conf
+########################################################################
+##
+## Localisation.
+##
+########################################################################
 
-if [ ! -e $cheminConfig ]; then
-	echo "dossier=" > $cheminConfig
+declare -A msg
+
+####################################
+##
+## Français.
+##
+####################################
+
+msg[ERR_ZENITY]="Veuillez installer zenity."
+msg[ERR_GS]="Veuillez installer ghostscript."
+msg[ZENITY_TITLE]="Sélectionnez un fichier PDF dont la taille doit être réduite"
+msg[ZENITY_ERR_SELECTION]="Aucun fichier PDF sélectionné."
+msg[ZENITY_ERR_FICHIER]="Le fichier précisé n'existe pas ou n'est pas utilisable:\n%s"
+msg[ZENITY_FICHIER_EXISTE]="Le fichier suivant existe déjà:\n%s\n\nVoulez-vous vraiment écraser ce fichier?"
+msg[ZENITY_ARRET]="Arrêt du script."
+msg[ZENITY_EN_COURS]="Réduction de la taille du fichier suivant en cours:\n%s"
+msg[ZENITY_ERR_REDUCTION]="Erreur lors de la réduction de la taille du fichier suivant:\n%s"
+msg[ZENITY_RESULTAT]="Réduction de la taille du fichier suivant terminée:\n%s\n\nLe nouveau fichier optimisé est:\n%s\n\nStatistiques:\n- taille de départ: %s\n- taille de sortie: %s\n- pourcentage d'optimisation: %s %%"
+msg[UNIT_0]="o"
+msg[UNIT_1]="Kio"
+msg[UNIT_2]="Mio"
+msg[UNIT_3]="Gio"
+msg[UNIT_4]="Tio"
+msg[UNIT_5]="Pio"
+msg[UNIT_6]="Eio"
+msg[UNIT_7]="Zio"
+msg[UNIT_8]="Yio"
+msg[PROP_SIZE_B]="(%s o)"
+
+####################################
+##
+## Anglais.
+##
+####################################
+
+if [[ ${LANG:0:2} == en ]]; then
+	msg[ERR_ZENITY]="Please install zenity."
+	msg[ERR_GS]="Please install ghostscript."
+	msg[ZENITY_TITLE]="Select a PDF file to reduce"
+	msg[ZENITY_ERR_SELECTION]="No PDF file selected."
+	msg[ZENITY_ERR_FICHIER]="The specified file doesn't exist or isn't available:\n%s"
+	msg[ZENITY_FICHIER_EXISTE]="The following file already exists:\n%s\n\nDo you want to overwrite it?"
+	msg[ZENITY_ARRET]="Stopping script."
+	msg[ZENITY_EN_COURS]="Reducing the size of the following file:\n%s"
+	msg[ZENITY_ERR_REDUCTION]="Error while reducing the size of the following file:\n%s"
+	msg[ZENITY_RESULTAT]="Reduction of the size of the following file done:\n%s\n\nThe new optimized file is:\n%s\n\nStatistics:\n- input size: %s\n- output size: %s\n- optimization percentage: %s %%"
+	msg[UNIT_0]="B"
+	msg[UNIT_1]="KiB"
+	msg[UNIT_2]="MiB"
+	msg[UNIT_3]="GiB"
+	msg[UNIT_4]="TiB"
+	msg[UNIT_5]="PiB"
+	msg[UNIT_6]="EiB"
+	msg[UNIT_7]="ZiB"
+	msg[UNIT_8]="YiB"
+	msg[PROP_SIZE_B]="(%s B)"
 fi
 
-if [ -z $(which zenity) ] && [ -z $(which gs) ]; then
-	echo "zenity et ghostscript doivent être installés."
+########################################################################
+##
+## Fonctions.
+##
+########################################################################
+
+# Note: le code de cette fonction provient de mon script Corbeille-SpaceFM.
+# Human readable size. I could use "du -bhs", but it rounds up, and passed 10,
+# no decimal is used (for example, 14.1 is rounded up 15). Therefore, I do it
+# by hand to have a better result. Note that Bash doesn't handle floating point
+# arithmetic, so I use integer division and modulo (I could use the command "bc",
+# but it would add another dependency).
+humanReadableSize()
+{
+	fileSize=$1
+	quotient=$fileSize
 	
-	exit 1
-elif [ -z $(which gs) ]; then
-	zenity --error --text="Le paquet «ghostscript» doit être installé."
+	# 0 => B
+	# 1 => KiB
+	# 2 => MiB
+	# and so on
+	unitIndex=-1
+	
+	while ((quotient > 0)); do
+		((quotient = quotient / 1024))
+		((++unitIndex))
+	done
+	
+	if ((unitIndex > 0)); then
+		((divisorInBytes = 1024**unitIndex))
+		((quotient1      = fileSize          / $divisorInBytes))
+		((remainder1     = fileSize          % $divisorInBytes))
+		((quotient2      = (remainder1 * 10) / $divisorInBytes))
+		((remainder2     = (remainder1 * 10) % $divisorInBytes))
+		((quotient3      = (remainder2 * 10) / $divisorInBytes))
+		((remainder3     = (remainder2 * 10) % $divisorInBytes))
+		
+		# Rounding the first decimal.
+		if ((quotient3 >= 5)); then
+			if [[ $quotient2 == 9 ]]; then
+				((++quotient1))
+				quotient2=0
+			else
+				((++quotient2))
+			fi
+		fi
+		
+		decimalSeparator=.
+		
+		# Make the decimal separator to follow locale.
+		if type locale > /dev/null 2>&1; then
+			lcNumeric=$(locale -k LC_NUMERIC)
+			
+			if [[ $lcNumeric =~ decimal_point=\"(.)\" ]]; then
+				decimalSeparator=${BASH_REMATCH[1]}
+			fi
+		fi
+		
+		humanReadableSize=$quotient1$decimalSeparator$quotient2
+	else
+		unitIndex=0 # In case we have a negative index.
+		humanReadableSize=$fileSize
+	fi
+	
+	printf "$humanReadableSize ${msg[UNIT_$unitIndex]}"
+	
+	if ((unitIndex > 0)); then
+		printf " ${msg[PROP_SIZE_B]}" "$fileSize"
+	fi
+}
+
+########################################################################
+##
+## Dépendances.
+##
+########################################################################
+
+cheminConfig=$HOME/.config/pdfmm.conf
+cheminAncienneConfig=$HOME/.pdfmm.conf
+
+if [[ -e $cheminAncienneConfig && ! -e $cheminConfig ]]; then
+	mv "$cheminAncienneConfig" "$cheminConfig"
+elif [[ -e $cheminAncienneConfig && -e $cheminConfig ]]; then
+	rm -f "$cheminAncienneConfig"
+elif [[ ! -e $cheminConfig ]]; then
+	echo "dossier=" > "$cheminConfig"
+fi
+
+if ! type -p zenity > /dev/null; then
+	if type -p xmessage > /dev/null; then
+		xmessage -print "${msg[ERR_ZENITY]}"
+	else
+		echo "${msg[ERR_ZENITY]}" >&2
+	fi
 	
 	exit 1
 fi
 
-if [ -n "$1" ]; then
-	pdfAreduire="$1"
+if ! type -p gs > /dev/null; then
+	zenity --error --text="${msg[ERR_GS]}"
+	
+	exit 1
+fi
+
+########################################################################
+##
+## Code principal.
+##
+########################################################################
+
+if [[ -n $1 ]]; then
+	pdfAreduire=$1
 else
-	dossier=$(cat $cheminConfig | grep "^dossier=" | cut -d '=' -f 2)
+	dossier=$(sed -n "s/^dossier=\(.*\)$/\1/p" < "$cheminConfig")
 	
-	if [ -z "$dossier" ]; then
+	if [[ -z $dossier ]]; then
 		dossier=$HOME
 	fi
 	
-	pdfAreduire=$(zenity --file-selection --filename="$dossier/" --title="Sélectionnez un fichier PDF dont la taille doit être réduite")
+	pdfAreduire=$(zenity --file-selection --filename="$dossier/" \
+		--title="${msg[ZENITY_TITLE]}")
 	
-	if [ $? -ne 0 ]; then
-		zenity --error --text="Aucun fichier PDF sélectionné."
+	if [[ $? != 0 ]]; then
+		zenity --error --text="${msg[ZENITY_ERR_SELECTION]}"
 		
 		exit 1
 	fi
 fi
 
-if [ ! -f "$pdfAreduire" ]; then
-	zenity --error --text="Le fichier précisé n'existe pas ou n'est pas utilisable:\n$pdfAreduire"
+if [[ ! -f $pdfAreduire ]]; then
+	zenity --error --text="$(printf "${msg[ZENITY_ERR_FICHIER]}" "$pdfAreduire")"
 	
 	exit 1
 fi
 
 # Mise à jour de la configuration.
+
 dossier=$(dirname "$pdfAreduire")
-sed -i "s|^\(dossier=\).*$|\1$dossier|" $cheminConfig
 
-ext="${pdfAreduire##*.}" # Si elle existe, l'extension est récupérée pour conserver sa casse («pdf» ou «PDF»).
-
-if [ "$ext" != "$pdfAreduire" ]; then
-	pdfReduit=$(echo "$pdfAreduire" | sed "s/\.$ext$/--.$ext/")
-else
-	pdfReduit="$pdfAreduire--"
+# On s'assure d'avoir un chemin absolu.
+if [[ $dossier != /* ]]; then
+	dossier=$(pwd)/$dossier
 fi
 
-if [ -f "$pdfReduit" ]; then
-	zenity --question --text="Le fichier suivant existe déjà:\n$pdfReduit\n\nVoulez-vous vraiment écraser ce fichier?"
+sed -i "s|^\(dossier=\).*$|\1$dossier|" "$cheminConfig"
+
+# Si elle existe, l'extension est récupérée pour conserver sa casse («pdf» ou «PDF»).
+nomFichier=$(basename "$pdfAreduire")
+ext=${nomFichier##*.}
+
+if [[ $ext != $nomFichier ]]; then
+	pdfReduit=$(echo "$pdfAreduire" | sed "s/\.$ext$/--.$ext/")
+else
+	pdfReduit=$pdfAreduire--
+fi
+
+if [[ -f $pdfReduit ]]; then
+	zenity --question --text="$(printf "${msg[ZENITY_FICHIER_EXISTE]}" "$pdfReduit")"
 	
-	if [ $? -eq 1 ]; then
-		zenity --info --text="Arrêt du script."
+	if [[ $? == 1 ]]; then
+		zenity --info --text="${msg[ZENITY_ARRET]}"
 		
 		exit 0
 	fi
 fi
 
-(echo "0"; gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -dPDFSETTINGS=/default -sOutputFile="$pdfReduit" "$pdfAreduire") | zenity --progress --pulsate --no-cancel --auto-close --text="$(echo -en "Réduction de la taille du fichier suivant en cours:\n$pdfAreduire")"
-
-if [ ${PIPESTATUS[0]} -ne 0 ]; then
-	zenity --error --text="Erreur lors de la réduction de la taille du fichier suivant:\n$pdfAreduire"
+(echo "0"; gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -dPDFSETTINGS=/default \
+	-sOutputFile="$pdfReduit" "$pdfAreduire") | zenity --progress --pulsate \
+	--no-cancel --auto-close --text="$(printf "${msg[ZENITY_EN_COURS]}" "$pdfAreduire")"
+if [[ ${PIPESTATUS[0]} != 0 ]]; then
+	zenity --error --text="$(printf "${msg[ZENITY_ERR_REDUCTION]}" "$pdfAreduire")"
 	
-	if [ -f "$pdfReduit" ]; then
-		rm "$pdfReduit"
+	if [[ -f $pdfReduit ]]; then
+		rm -f "$pdfReduit"
 	fi
 	
 	exit 1
 fi
 
 tailleDepart=$(stat --format=%s "$pdfAreduire")
-tailleDepartFormatee=$(ls -hl "$pdfAreduire" | cut -d ' ' -f 5)
+tailleDepartFormatee=$(humanReadableSize "$tailleDepart")
 tailleSortie=$(stat --format=%s "$pdfReduit")
-tailleSortieFormatee=$(ls -hl "$pdfReduit" | cut -d ' ' -f 5)
-pourcentageOptimisation=$(echo "(($tailleDepart - $tailleSortie) / $tailleDepart) * 100" | bc -l | cut -d '.' -f 1)
+tailleSortieFormatee=$(humanReadableSize "$tailleSortie")
 
-if [ -z $pourcentageOptimisation ] || [ $pourcentageOptimisation == "-" ]; then
+if ((tailleDepart > 0)); then
+	pourcentageOptimisation=$(( ((tailleDepart - tailleSortie) * 100) / tailleDepart ))
+fi
+
+if [[ -z $pourcentageOptimisation ]]; then
 	pourcentageOptimisation=0
 fi
 
-zenity --info --text="Réduction de la taille du fichier suivant terminée:\n$pdfAreduire\n\nLe nouveau fichier optimisé est:\n$pdfReduit\n\nStatistiques:\n- taille de départ: $tailleDepartFormatee\n- taille de sortie: $tailleSortieFormatee\n- pourcentage d'optimisation: $pourcentageOptimisation%"
+zenity --info --text="$(printf "${msg[ZENITY_RESULTAT]}" "$pdfAreduire" "$pdfReduit" \
+	"$tailleDepartFormatee" "$tailleSortieFormatee" "$pourcentageOptimisation")"
 
 exit 0
 
