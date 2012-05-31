@@ -250,8 +250,10 @@ if [[ -f $pdfReduit ]]; then
 	fi
 fi
 
+pdfReduitEchappe=$(echo "$pdfReduit" | sed 's/%/%%/g')
+
 (echo "0"; gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -dPDFSETTINGS=/default \
-	-sOutputFile="$pdfReduit" "$pdfAreduire") | zenity --progress --pulsate \
+	-sOutputFile="$pdfReduitEchappe" "$pdfAreduire") | zenity --progress --pulsate \
 	--no-cancel --auto-close --text="$(printf "${msg[ZENITY_EN_COURS]}" "$pdfAreduire")"
 if [[ ${PIPESTATUS[0]} != 0 ]]; then
 	zenity --error --text="$(printf "${msg[ZENITY_ERR_REDUCTION]}" "$pdfAreduire")"
