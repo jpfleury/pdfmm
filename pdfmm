@@ -36,6 +36,7 @@ declare -A msg
 
 msg[ERR_ZENITY]="Veuillez installer zenity."
 msg[ERR_GS]="Veuillez installer ghostscript."
+msg[ERR_SED]="Veuillez installer sed."
 msg[ZENITY_TITLE]="Sélectionnez un fichier PDF dont la taille doit être réduite"
 msg[ZENITY_ERR_SELECTION]="Aucun fichier PDF sélectionné."
 msg[ZENITY_ERR_FICHIER]="Le fichier précisé n'existe pas ou n'est pas utilisable:\n%s"
@@ -64,6 +65,7 @@ msg[PROP_SIZE_B]="(%s o)"
 if [[ ${LANG:0:2} == en ]]; then
 	msg[ERR_ZENITY]="Please install zenity."
 	msg[ERR_GS]="Please install ghostscript."
+	msg[ERR_SED]="Please install sed."
 	msg[ZENITY_TITLE]="Select a PDF file to reduce"
 	msg[ZENITY_ERR_SELECTION]="No PDF file selected."
 	msg[ZENITY_ERR_FICHIER]="The specified file doesn't exist or isn't available:\n%s"
@@ -178,6 +180,12 @@ if ! type -p zenity > /dev/null; then
 	else
 		echo "${msg[ERR_ZENITY]}" >&2
 	fi
+	
+	exit 1
+fi
+
+if ! type -p sed > /dev/null; then
+	zenity --error --text="${msg[ERR_SED]}"
 	
 	exit 1
 fi

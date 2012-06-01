@@ -26,7 +26,7 @@ Bien sûr, ces chiffres sont donnés seulement à titre d'exemples. Le résultat
 
 ## Dépendances
 
-pdfmm est un script shell dépendant de bash (>= 4.0), zenity et ghostscript.
+pdfmm est un script shell dépendant de bash (>= 4.0), sed, zenity et ghostscript.
 
 ## Installation
 

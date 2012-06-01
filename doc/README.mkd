@@ -26,7 +26,7 @@ Of course, this table is presented only as example. The result will certainly no
 
 ## Requirements
 
-pdfmm is a shell script requiring bash (>= 4.0), zenity and ghostscript.
+pdfmm is a shell script requiring bash (>= 4.0), sed, zenity and ghostscript.
 
 ## Installation
 
