@@ -4,7 +4,7 @@
 
 pdfmm (pour «pdf moins moins», ou «pdf--») est un assistant graphique pour réduire la taille de fichiers PDF.
 
-<img src="http://jpfleury.indefero.net/p/pdfmm/source/tree/master/doc/exemple1-fr.png" width="627" height="526" alt="Assistant graphique de réduction de la taille des fichiers PDF" />
+<img src="http://jpfleury.indefero.net/p/pdfmm/source/tree/master/doc/exemple1-fr.png" width="683" height="526" alt="Assistant graphique de réduction de la taille des fichiers PDF" />
 
 Voici quelques résultats obtenus avec des fichiers PDF choisis au hasard:
 
