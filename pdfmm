@@ -36,24 +36,24 @@ declare -A msg
 
 msg[ERR_ZENITY]="Veuillez installer zenity."
 msg[ERR_GS]="Veuillez installer ghostscript."
-msg[ZENITY_TITLE]="Sélectionnez un fichier PDF dont la taille doit être réduite"
-msg[ZENITY_ERR_SELECTION]="Aucun fichier PDF sélectionné."
-msg[ZENITY_ERR_FICHIER]="Le fichier précisé n'existe pas ou n'est pas utilisable:\n%s"
-msg[ZENITY_FICHIER_EXISTE]="Le fichier suivant existe déjà:\n%s\n\nVoulez-vous vraiment écraser ce fichier?"
-msg[ZENITY_ARRET]="Arrêt du script."
-msg[ZENITY_EN_COURS]="Réduction de la taille du fichier suivant en cours:\n%s"
-msg[ZENITY_ERR_REDUCTION]="Erreur lors de la réduction de la taille du fichier suivant:\n%s"
-msg[ZENITY_RESULTAT]="Réduction de la taille du fichier suivant terminée:\n%s\n\nLe nouveau fichier optimisé est:\n%s\n\nStatistiques:\n- taille de départ: %s\n- taille de sortie: %s\n- pourcentage d'optimisation: %s %%"
+msg[ERR_SED]="Veuillez installer sed."
+msg[TITRE_SELECTION]="Sélectionnez les fichiers PDF dont la taille doit être réduite"
+msg[ERR_SELECTION]="Aucun fichier PDF sélectionné."
+msg[ERR_TMP]="Impossible de créer de fichier temporaire."
+msg[TITRE_FICHIER]="=========================\n%s. Fichier «%s»\n========================="
+msg[ERR_FICHIER]="Ce fichier n'existe pas ou n'est pas utilisable."
+msg[FICHIER_EXISTE_QUESTION]="Le fichier suivant existe déjà:\n%s\n\nVoulez-vous l'écraser?"
+msg[FICHIER_EXISTE]="Le fichier «%s» existe déjà."
+msg[EN_COURS]="Réduction de la taille en cours."
+msg[ERR_REDUCTION]="Erreur lors de la réduction de la taille du fichier."
+msg[FICHIER_OPTIMISE]="Le fichier optimisé est «%s»."
+msg[STATS]="Statistiques:\n- taille de départ: %s\n- taille de sortie: %s\n- pourcentage d'optimisation: %s %%"
 msg[UNIT_0]="o"
 msg[UNIT_1]="Kio"
 msg[UNIT_2]="Mio"
 msg[UNIT_3]="Gio"
-msg[UNIT_4]="Tio"
-msg[UNIT_5]="Pio"
-msg[UNIT_6]="Eio"
-msg[UNIT_7]="Zio"
-msg[UNIT_8]="Yio"
 msg[PROP_SIZE_B]="(%s o)"
+msg[TITRE_RESULTATS]="Résultats"
 
 ####################################
 ##
@@ -64,24 +64,24 @@ msg[PROP_SIZE_B]="(%s o)"
 if [[ ${LANG:0:2} == en ]]; then
 	msg[ERR_ZENITY]="Please install zenity."
 	msg[ERR_GS]="Please install ghostscript."
-	msg[ZENITY_TITLE]="Select a PDF file to reduce"
-	msg[ZENITY_ERR_SELECTION]="No PDF file selected."
-	msg[ZENITY_ERR_FICHIER]="The specified file doesn't exist or isn't available:\n%s"
-	msg[ZENITY_FICHIER_EXISTE]="The following file already exists:\n%s\n\nDo you want to overwrite it?"
-	msg[ZENITY_ARRET]="Stopping script."
-	msg[ZENITY_EN_COURS]="Reducing the size of the following file:\n%s"
-	msg[ZENITY_ERR_REDUCTION]="Error while reducing the size of the following file:\n%s"
-	msg[ZENITY_RESULTAT]="Reduction of the size of the following file done:\n%s\n\nThe new optimized file is:\n%s\n\nStatistics:\n- input size: %s\n- output size: %s\n- optimization percentage: %s %%"
+	msg[ERR_SED]="Please install sed."
+	msg[TITRE_SELECTION]="Select PDF files to reduce"
+	msg[ERR_SELECTION]="No PDF file selected."
+	msg[ERR_TMP]="Can't create temporary file."
+	msg[TITRE_FICHIER]="=========================\n%s. File \"%s\"\n========================="
+	msg[ERR_FICHIER]="This file doesn't exist or isn't available."
+	msg[FICHIER_EXISTE_QUESTION]="The following file already exists:\n%s\n\nDo you want to overwrite it?"
+	msg[FICHIER_EXISTE]="The file \"%s\" already exists."
+	msg[EN_COURS]="Reduction of the size in progress."
+	msg[ERR_REDUCTION]="Error while reducing the size of the file."
+	msg[FICHIER_OPTIMISE]="The optimized file is \"%s\"."
+	msg[STATS]="Statistics:\n- input size: %s\n- output size: %s\n- optimization percentage: %s %%"
 	msg[UNIT_0]="B"
 	msg[UNIT_1]="KiB"
 	msg[UNIT_2]="MiB"
 	msg[UNIT_3]="GiB"
-	msg[UNIT_4]="TiB"
-	msg[UNIT_5]="PiB"
-	msg[UNIT_6]="EiB"
-	msg[UNIT_7]="ZiB"
-	msg[UNIT_8]="YiB"
 	msg[PROP_SIZE_B]="(%s B)"
+	msg[TITRE_RESULTATS]="Results"
 fi
 
 ########################################################################
@@ -162,12 +162,12 @@ humanReadableSize()
 ########################################################################
 
 cheminConfig=$HOME/.config/pdfmm.conf
-cheminAncienneConfig=$HOME/.pdfmm.conf
+ancienCheminConfig=$HOME/.pdfmm.conf
 
-if [[ -e $cheminAncienneConfig && ! -e $cheminConfig ]]; then
-	mv "$cheminAncienneConfig" "$cheminConfig"
-elif [[ -e $cheminAncienneConfig && -e $cheminConfig ]]; then
-	rm -f "$cheminAncienneConfig"
+if [[ -e $ancienCheminConfig && ! -e $cheminConfig ]]; then
+	mv "$ancienCheminConfig" "$cheminConfig"
+elif [[ -e $ancienCheminConfig && -e $cheminConfig ]]; then
+	rm -f "$ancienCheminConfig"
 elif [[ ! -e $cheminConfig ]]; then
 	echo "dossier=" > "$cheminConfig"
 fi
@@ -188,14 +188,30 @@ if ! type -p gs > /dev/null; then
 	exit 1
 fi
 
+if ! type -p sed > /dev/null; then
+	zenity --error --text="${msg[ERR_SED]}"
+	
+	exit 1
+fi
+
 ########################################################################
 ##
 ## Code principal.
 ##
 ########################################################################
 
-if [[ -n $1 ]]; then
-	pdfAreduire=$1
+fichierTmp=$(mktemp)
+
+if [[ $? != 0 ]]; then
+	zenity --error --text="${msg[ERR_TMP]}"
+	
+	exit 1
+fi
+
+trap "rm -f $fichierTmp" 0 1 2 3 15
+
+if [[ -n $@ ]]; then
+	listePdfAreduire=("$@")
 else
 	dossier=$(sed -n "s/^dossier=\(.*\)$/\1/p" < "$cheminConfig")
 	
@@ -203,83 +219,117 @@ else
 		dossier=$HOME
 	fi
 	
-	pdfAreduire=$(zenity --file-selection --filename="$dossier/" \
-		--title="${msg[ZENITY_TITLE]}")
+	selectionZenity=$(zenity --file-selection --multiple --separator="//" \
+		--filename="$dossier/" --title="${msg[TITRE_SELECTION]}")
 	
 	if [[ $? != 0 ]]; then
-		zenity --error --text="${msg[ZENITY_ERR_SELECTION]}"
+		zenity --error --text="${msg[ERR_SELECTION]}"
 		
 		exit 1
 	fi
-fi
-
-if [[ ! -f $pdfAreduire ]]; then
-	zenity --error --text="$(printf "${msg[ZENITY_ERR_FICHIER]}" "$pdfAreduire")"
 	
-	exit 1
-fi
-
-# Mise à jour de la configuration.
-
-dossier=$(dirname "$pdfAreduire")
-
-# On s'assure d'avoir un chemin absolu.
-if [[ $dossier != /* ]]; then
-	dossier=$(pwd)/$dossier
-fi
-
-sed -i "s|^\(dossier=\).*$|\1$dossier|" "$cheminConfig"
-
-# Si elle existe, l'extension est récupérée pour conserver sa casse («pdf» ou «PDF»).
-nomFichier=$(basename "$pdfAreduire")
-ext=${nomFichier##*.}
-
-if [[ $ext != $nomFichier ]]; then
-	pdfReduit=$(echo "$pdfAreduire" | sed "s/\.$ext$/--.$ext/")
-else
-	pdfReduit=$pdfAreduire--
-fi
-
-if [[ -f $pdfReduit ]]; then
-	zenity --question --text="$(printf "${msg[ZENITY_FICHIER_EXISTE]}" "$pdfReduit")"
+	listePdfAreduire=()
 	
-	if [[ $? == 1 ]]; then
-		zenity --info --text="${msg[ZENITY_ARRET]}"
+	while [[ -n $selectionZenity ]]; do
+		listePdfAreduire+=("${selectionZenity%%//*}")
+		ancienneSelectionZenity=$selectionZenity
+		selectionZenity=${selectionZenity#*//}
 		
-		exit 0
-	fi
+		if [[ $selectionZenity == $ancienneSelectionZenity ]]; then
+			selectionZenity=
+		fi
+	done
 fi
 
-pdfReduitEchappe=$(echo "$pdfReduit" | sed 's/%/%%/g')
+configMiseAJour=false
+compteur=1
+((increment = 100 / ${#listePdfAreduire[@]}))
+pourcentage=0
 
-(echo "0"; gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -dPDFSETTINGS=/default \
-	-sOutputFile="$pdfReduitEchappe" "$pdfAreduire") | zenity --progress --pulsate \
-	--no-cancel --auto-close --text="$(printf "${msg[ZENITY_EN_COURS]}" "$pdfAreduire")"
-if [[ ${PIPESTATUS[0]} != 0 ]]; then
-	zenity --error --text="$(printf "${msg[ZENITY_ERR_REDUCTION]}" "$pdfAreduire")"
+for pdfAreduire in "${listePdfAreduire[@]}"; do
+	echo "$pourcentage"
+	printf "${msg[TITRE_FICHIER]}" "$compteur" "$pdfAreduire" >> "$fichierTmp"
+	echo -e "\n" >> "$fichierTmp"
+	
+	((compteur++))
+	((pourcentage += increment))
+	
+	if [[ ! -f $pdfAreduire ]]; then
+		echo "${msg[ERR_FICHIER]}" >> "$fichierTmp"
+		echo >> "$fichierTmp"
+		continue
+	fi
+	
+	# Mise à jour de la configuration.
+	if [[ $configMiseAJour == false ]]; then
+		dossier=$(dirname "$pdfAreduire")
+		
+		# On s'assure d'avoir un chemin absolu.
+		if [[ $dossier != /* ]]; then
+			dossier=$(pwd)/$dossier
+		fi
+		
+		sed -i "s|^\(dossier=\).*$|\1$dossier|" "$cheminConfig"
+		configMiseAJour=true
+	fi
+	
+	# Si elle existe, l'extension est récupérée pour conserver sa casse («pdf» ou «PDF»).
+	nomFichier=$(basename "$pdfAreduire")
+	ext=${nomFichier##*.}
+	
+	if [[ $ext != $nomFichier ]]; then
+		pdfReduit=$(echo "$pdfAreduire" | sed "s/\.$ext$/--.$ext/")
+	else
+		pdfReduit=$pdfAreduire--
+	fi
 	
 	if [[ -f $pdfReduit ]]; then
-		rm -f "$pdfReduit"
+		zenity --question --text="$(printf "${msg[FICHIER_EXISTE_QUESTION]}" "$pdfReduit")"
+		
+		if [[ $? == 1 ]]; then
+			printf "${msg[FICHIER_EXISTE]}" "$pdfReduit" >> "$fichierTmp"
+			echo -e "\n" >> "$fichierTmp"
+			continue
+		fi
 	fi
 	
-	exit 1
-fi
+	pdfReduitEchappe=$(echo "$pdfReduit" | sed 's/%/%%/g')
+	
+	gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -dPDFSETTINGS=/default \
+		-sOutputFile="$pdfReduitEchappe" "$pdfAreduire"
+	
+	if [[ $? != 0 ]]; then
+		if [[ -f $pdfReduit ]]; then
+			rm -f "$pdfReduit"
+		fi
+		
+		echo "${msg[ERR_REDUCTION]}" >> "$fichierTmp"
+		echo >> "$fichierTmp"
+		continue
+	fi
+	
+	tailleDepart=$(stat --format=%s "$pdfAreduire")
+	tailleDepartFormatee=$(humanReadableSize "$tailleDepart")
+	tailleSortie=$(stat --format=%s "$pdfReduit")
+	tailleSortieFormatee=$(humanReadableSize "$tailleSortie")
+	
+	if ((tailleDepart > 0)); then
+		pourcentageOptimisation=$(( ((tailleDepart - tailleSortie) * 100) / tailleDepart ))
+	fi
+	
+	if [[ -z $pourcentageOptimisation ]]; then
+		pourcentageOptimisation=0
+	fi
+	
+	printf "${msg[FICHIER_OPTIMISE]}" "$pdfReduit" >> "$fichierTmp"
+	echo -e "\n" >> "$fichierTmp"
+	printf "${msg[STATS]}" "$tailleDepartFormatee" "$tailleSortieFormatee" \
+		"$pourcentageOptimisation" >> "$fichierTmp"
+	echo -e "\n" >> "$fichierTmp"
+done | zenity --progress --no-cancel --auto-close --text="${msg[EN_COURS]}"
 
-tailleDepart=$(stat --format=%s "$pdfAreduire")
-tailleDepartFormatee=$(humanReadableSize "$tailleDepart")
-tailleSortie=$(stat --format=%s "$pdfReduit")
-tailleSortieFormatee=$(humanReadableSize "$tailleSortie")
-
-if ((tailleDepart > 0)); then
-	pourcentageOptimisation=$(( ((tailleDepart - tailleSortie) * 100) / tailleDepart ))
-fi
-
-if [[ -z $pourcentageOptimisation ]]; then
-	pourcentageOptimisation=0
-fi
-
-zenity --info --text="$(printf "${msg[ZENITY_RESULTAT]}" "$pdfAreduire" "$pdfReduit" \
-	"$tailleDepartFormatee" "$tailleSortieFormatee" "$pourcentageOptimisation")"
+zenity ---text-info --width=700 --height=500 --filename="$fichierTmp" \
+	--title="${msg[TITRE_RESULTATS]}"
 
 exit 0
 

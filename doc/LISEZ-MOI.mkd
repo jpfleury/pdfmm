@@ -2,9 +2,9 @@
 
 ## Aperçu
 
-pdfmm (pour «pdf moins moins», ou «pdf--») est un assistant graphique pour réduire la taille d'un fichier PDF.
+pdfmm (pour «pdf moins moins», ou «pdf--») est un assistant graphique pour réduire la taille de fichiers PDF.
 
-<img src="http://jpfleury.indefero.net/p/pdfmm/source/tree/master/doc/exemple1-fr.png" width="446" height="287" alt="Assistant graphique de réduction de la taille des fichiers PDF" />
+<img src="http://jpfleury.indefero.net/p/pdfmm/source/tree/master/doc/exemple1-fr.png" width="627" height="526" alt="Assistant graphique de réduction de la taille des fichiers PDF" />
 
 Voici quelques résultats obtenus avec des fichiers PDF choisis au hasard:
 
@@ -26,7 +26,7 @@ Bien sûr, ces chiffres sont donnés seulement à titre d'exemples. Le résultat
 
 ## Dépendances
 
-pdfmm est un script shell dépendant de bash (>= 4.0), zenity et ghostscript.
+pdfmm est un script shell dépendant de bash (>= 4.0), sed, zenity et ghostscript.
 
 ## Installation
 
@@ -76,9 +76,9 @@ Si vous vous trouvez dans le même dossier que le fichier `pdfmm`, la commande e
 
 	./pdfmm
 
-Dans tous les cas, il est possible de préciser en argument le fichier PDF à optimiser, par exemple:
+Dans tous les cas, il est possible de préciser en argument les fichiers PDF à optimiser, par exemple:
 
-	./pdfmm chemin/vers/le/fichier.pdf
+	./pdfmm chemin/vers/le/fichier1.pdf chemin/vers/le/fichier2.pdf
 
 Il est également possible d'ouvrir le script en cliquant sur le fichier `pdfmm` (simple clic ou double clic selon votre configuration) et en choisissant de le lancer.
 
@@ -88,7 +88,7 @@ Vous pouvez également créer un lanceur dont la commande correspond au chemin a
 
 ### Tous les utilisateurs
 
-Dans une console, simplement saisir `pdfmm`. Le fichier PDF à optimiser peut être précisé en argument.
+Dans une console, simplement saisir `pdfmm`. Les fichiers PDF à optimiser peuvent être précisés en argument.
 
 Un lanceur peut également être créé. Dans ce cas, la commande est simplement `pdfmm`.
 
@@ -98,7 +98,7 @@ pdfmm peut s'afficher dans plusieurs langues. Toute personne intéressée à eff
 
 ## Développement
 
-Dernière version: 1.1.2 (2012-05-31)
+Dernière version: 1.2 (2012-06-02)
 
 Le logiciel Git est utilisé pour la gestion de versions. [Le dépôt peut être consulté en ligne ou récupéré en local.][git]
 

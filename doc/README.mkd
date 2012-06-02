@@ -2,9 +2,9 @@
 
 ## Overview
 
-pdfmm (for "pdf minus minus", or "pdf--") is a graphical assistant to reduce the size of a PDF file.
+pdfmm (for "pdf minus minus", or "pdf--") is a graphical assistant to reduce the size of PDF files.
 
-<img src="http://jpfleury.indefero.net/p/pdfmm/source/tree/master/doc/exemple1-en.png" width="432" height="287" alt="Graphical assistant to reduce the size of PDF files" />
+<img src="http://jpfleury.indefero.net/p/pdfmm/source/tree/master/doc/exemple1-en.png" width="601" height="526" alt="Graphical assistant to reduce the size of PDF files" />
 
 Here are some results obtained with PDF files randomly selected:
 
@@ -26,7 +26,7 @@ Of course, this table is presented only as example. The result will certainly no
 
 ## Requirements
 
-pdfmm is a shell script requiring bash (>= 4.0), zenity and ghostscript.
+pdfmm is a shell script requiring bash (>= 4.0), sed, zenity and ghostscript.
 
 ## Installation
 
@@ -76,9 +76,9 @@ If your working folder is the same as the parent of the file `pdfmm`, the comman
 
 	./pdfmm
 
-In any case, the PDF file to optimize can be specified as an argument, for example:
+In any case, the PDF files to optimize can be specified as an argument, for example:
 
-	./pdfmm path/to/the/file.pdf
+	./pdfmm path/to/the/file1.pdf path/to/the/file2.pdf
 
 The script can also be opened by clicking on the file `pdfmm` (single click or double click depending on your configuration) and choosing to run it.
 
@@ -88,7 +88,7 @@ If you prefer, you can create a launcher with the absolute path as command, for 
 
 ### All users
 
-In a terminal, just enter `pdfmm`. The PDF file to optimize can be specified in command line.
+In a terminal, just enter `pdfmm`. The PDF files to optimize can be specified in command line.
 
 A launcher can also be created with the command `pdfmm`.
 
@@ -98,7 +98,7 @@ pdfmm is translatable. Anyone interested can translate all strings in the sectio
 
 ## Development
 
-Last version: 1.1.2 (2012-05-31)
+Last version: 1.2 (2012-06-02)
 
 Git is used for revision control. [Repository can be browsed online or cloned.][git]
 
