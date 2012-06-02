@@ -4,7 +4,7 @@
 
 pdfmm (for "pdf minus minus", or "pdf--") is a graphical assistant to reduce the size of PDF files.
 
-<img src="http://jpfleury.indefero.net/p/pdfmm/source/tree/master/doc/exemple1-en.png" width="601" height="526" alt="Graphical assistant to reduce the size of PDF files" />
+<img src="http://jpfleury.indefero.net/p/pdfmm/source/tree/master/doc/exemple1-en.png" width="683" height="526" alt="Graphical assistant to reduce the size of PDF files" />
 
 Here are some results obtained with PDF files randomly selected:
 
@@ -98,7 +98,7 @@ pdfmm is translatable. Anyone interested can translate all strings in the sectio
 
 ## Development
 
-Last version: 1.2 (2012-06-02)
+Last version: 1.2.1 (2012-06-02)
 
 Git is used for revision control. [Repository can be browsed online or cloned.][git]
 
