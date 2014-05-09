@@ -4,7 +4,7 @@
 # pdfmm est un assistant graphique pour réduire la taille d'un fichier PDF.
 
 # Auteur: Jean-Philippe Fleury <contact@jpfleury.net>
-# Copyright © Jean-Philippe Fleury, 2011-2012.
+# Copyright © Jean-Philippe Fleury, 2011-2012, 2014.
 
 # Ce programme est un logiciel libre; vous pouvez le redistribuer ou le
 # modifier suivant les termes de la GNU General Public License telle que
@@ -57,7 +57,7 @@ msg[TITRE_RESULTATS]="Résultats"
 
 ####################################
 ##
-## Anglais.
+## English.
 ##
 ####################################
 
@@ -82,6 +82,35 @@ if [[ ${LANG:0:2} == en ]]; then
 	msg[UNIT_3]="GiB"
 	msg[PROP_SIZE_B]="(%s B)"
 	msg[TITRE_RESULTATS]="Results"
+fi
+
+####################################
+##
+## Deutsch.
+##
+####################################
+
+if [[ ${LANG:0:2} == de ]]; then
+	msg[ERR_ZENITY]="Bitte installieren Sie zenity."
+	msg[ERR_GS]="Bitte installieren Sie ghostscript."
+	msg[ERR_SED]="Bitte installieren Sie sed."
+	msg[TITRE_SELECTION]="PDF-Datei zum verkleinern auswählen"
+	msg[ERR_SELECTION]="Keine PDF-Datei ausgewählt."
+	msg[ERR_TMP]="Kann keine temporäre Datei erzeugen."
+	msg[TITRE_FICHIER]="=========================\n%s. Datei \"%s\"\n========================="
+	msg[ERR_FICHIER]="Diese Datei existiert nicht oder ist nicht verfügbar."
+	msg[FICHIER_EXISTE_QUESTION]="Die Datei existiert bereits:\n%s\n\nÜberschreiben?"
+	msg[FICHIER_EXISTE]="Die Datei \"%s\" existiert bereits."
+	msg[EN_COURS]="Verkleinern der Datei ..."
+	msg[ERR_REDUCTION]="Beim Bearbeiten der Datei ist ein Fehler aufgetreten."
+	msg[FICHIER_OPTIMISE]="Die optimierte Datei ist \"%s\"."
+	msg[STATS]="Statistik:\n- Eingangsgröße: %s\n- Ausgangsgröße: %s\n- Optimierungsrate: %s %%"
+	msg[UNIT_0]="B"
+	msg[UNIT_1]="KiB"
+	msg[UNIT_2]="MiB"
+	msg[UNIT_3]="GiB"
+	msg[PROP_SIZE_B]="(%s B)"
+	msg[TITRE_RESULTATS]="Ergebnis"
 fi
 
 ########################################################################
