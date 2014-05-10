@@ -98,7 +98,7 @@ pdfmm peut s'afficher dans plusieurs langues. Toute personne intéressée à eff
 
 ## Développement
 
-Dernière version: 1.2.2 (2013-09-07)
+Dernière version: 1.2.3 (2014-05-10)
 
 Le logiciel Git est utilisé pour la gestion de versions. [Le dépôt peut être consulté en ligne ou récupéré en local.](https://gitorious.org/projets-divers/pdfmm)
 
