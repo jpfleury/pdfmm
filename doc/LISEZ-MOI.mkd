@@ -94,18 +94,18 @@ Un lanceur peut également être créé. Dans ce cas, la commande est simplement
 
 ## Traduction
 
-pdfmm peut s'afficher dans plusieurs langues. Toute personne intéressée à effectuer une traduction peut donc traduire les phrases présentes dans la section *Localisation* du fichier `pdfmm` et m'envoyer le résultat. Pour l'instant, pdfmm est disponible en français et en anglais.
+pdfmm peut s'afficher dans plusieurs langues. Toute personne intéressée à effectuer une traduction peut donc traduire les phrases présentes dans la section *Localisation* du fichier `pdfmm` et m'envoyer le résultat. Pour l'instant, pdfmm est disponible en allemand, en anglais et en français.
 
 ## Développement
 
-Dernière version: 1.2.2 (2013-09-07)
+Dernière version: 1.2.3 (2014-05-10)
 
 Le logiciel Git est utilisé pour la gestion de versions. [Le dépôt peut être consulté en ligne ou récupéré en local.](https://gitorious.org/projets-divers/pdfmm)
 
 ## Licence
 
 Auteur: Jean-Philippe Fleury (<http://www.jpfleury.net/contact.php>)  
-Copyright © Jean-Philippe Fleury, 2011-2013.
+Copyright © Jean-Philippe Fleury, 2011-2014.
 
 Ce programme est un logiciel libre; vous pouvez le redistribuer ou le
 modifier suivant les termes de la GNU General Public License telle que
