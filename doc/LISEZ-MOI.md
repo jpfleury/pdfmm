@@ -1,10 +1,8 @@
-<p lang="en"><strong><a hreflang="en" href="http://www.jpfleury.net/en/software/pdfmm.php">Read this page in English.</a></strong></p>
-
 ## Aperçu
 
 pdfmm (pour «pdf moins moins», ou «pdf--») est un assistant graphique pour réduire la taille de fichiers PDF.
 
-<img src="https://gitorious.org/projets-divers/pdfmm/raw/master:doc/exemple1-fr.png" width="683" height="526" alt="Assistant graphique de réduction de la taille des fichiers PDF" />
+<img src="https://raw.githubusercontent.com/jpfleury/pdfmm/master/doc/exemple1-fr.png" width="683" height="526" alt="Assistant graphique de réduction de la taille des fichiers PDF" />
 
 Voici quelques résultats obtenus avec des fichiers PDF choisis au hasard:
 
@@ -30,7 +28,7 @@ pdfmm est un script shell dépendant de bash (>= 4.0), sed, zenity et ghostscrip
 
 ## Installation
 
-- [Télécharger l'archive de la dernière version.](https://gitorious.org/projets-divers/pdfmm/archive/master.zip)
+- [Télécharger l'archive de la dernière version.](https://github.com/jpfleury/pdfmm/archive/master.zip)
 
 - Extraire l'archive.
 
@@ -98,14 +96,12 @@ pdfmm peut s'afficher dans plusieurs langues. Toute personne intéressée à eff
 
 ## Développement
 
-Dernière version: 1.2.3 (2014-05-10)
-
-Le logiciel Git est utilisé pour la gestion de versions. [Le dépôt peut être consulté en ligne ou récupéré en local.](https://gitorious.org/projets-divers/pdfmm)
+Le logiciel Git est utilisé pour la gestion de versions. [Le dépôt peut être consulté en ligne ou récupéré en local.](https://github.com/jpfleury/pdfmm)
 
 ## Licence
 
 Auteur: Jean-Philippe Fleury (<http://www.jpfleury.net/contact.php>)  
-Copyright © Jean-Philippe Fleury, 2011-2014.
+Copyright © Jean-Philippe Fleury, 2011.
 
 Ce programme est un logiciel libre; vous pouvez le redistribuer ou le
 modifier suivant les termes de la GNU General Public License telle que
@@ -120,4 +116,3 @@ générale GNU pour plus de détails.
 Vous devriez avoir reçu une copie de la Licence publique générale GNU avec
 ce programme; si ce n'est pas le cas, consultez
 <http://www.gnu.org/licenses/>.
-

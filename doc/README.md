@@ -1,10 +1,8 @@
-<p lang="fr"><strong><a hreflang="fr" href="http://www.jpfleury.net/logiciels/pdfmm.php">Lire cette page en français.</a></strong></p>
-
 ## Overview
 
 pdfmm (for "pdf minus minus", or "pdf--") is a graphical assistant to reduce the size of PDF files.
 
-<img src="https://gitorious.org/projets-divers/pdfmm/raw/master:doc/exemple1-en.png" width="683" height="526" alt="Graphical assistant to reduce the size of PDF files" />
+<img src="https://raw.githubusercontent.com/jpfleury/pdfmm/master/doc/exemple1-en.png" width="683" height="526" alt="Graphical assistant to reduce the size of PDF files" />
 
 Here are some results obtained with PDF files randomly selected:
 
@@ -30,7 +28,7 @@ pdfmm is a shell script requiring bash (>= 4.0), sed, zenity and ghostscript.
 
 ## Installation
 
-- [Download the archive of the latest version.](https://gitorious.org/projets-divers/pdfmm/archive/master.zip)
+- [Download the archive of the latest version.](https://github.com/jpfleury/pdfmm/archive/master.zip)
 
 - Extract the archive.
 
@@ -98,14 +96,12 @@ pdfmm is translatable. Anyone interested can translate all strings in the sectio
 
 ## Development
 
-Last version: 1.2.3 (2014-05-10)
-
-Git is used for revision control. [Repository can be browsed online or cloned.](https://gitorious.org/projets-divers/pdfmm)
+Git is used for revision control. [Repository can be browsed online or cloned.](https://github.com/jpfleury/pdfmm)
 
 ## License
 
 Author: Jean-Philippe Fleury (<http://www.jpfleury.net/en/contact.php>)  
-Copyright © 2011-2014 Jean-Philippe Fleury
+Copyright © 2011 Jean-Philippe Fleury
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -119,4 +115,3 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
