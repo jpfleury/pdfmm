@@ -357,7 +357,7 @@ for pdfAreduire in "${listePdfAreduire[@]}"; do
 	echo -e "\n" >> "$fichierTmp"
 done | zenity --progress --no-cancel --auto-close --text="${msg[EN_COURS]}"
 
-zenity ---text-info --width=700 --height=500 --filename="$fichierTmp" \
+zenity --text-info --width=700 --height=500 --filename="$fichierTmp" \
 	--title="${msg[TITRE_RESULTATS]}"
 
 exit 0
