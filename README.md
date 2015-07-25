@@ -58,6 +58,8 @@ Delete the file `pdfmm` previously copied in `/usr/bin/` (root privileges needed
 
 - No original files are modified. The optimized file is created in the same folder as the original.
 
+- After optimized files are being created, a window appears listing them. Clicking *OK* will keep these files; clicking *Cancel* will remove them.
+
 - A configuration file is created in the home folder of the user running `pdfmm`:
 
 		~/.config/pdfmm.conf

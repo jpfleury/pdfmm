@@ -229,7 +229,7 @@ fi
 ##
 ########################################################################
 
-fichierTmp=$(mktemp)
+fichierTmp=$(mktemp) && fichierTmp2=$(mktemp)
 
 if [[ $? != 0 ]]; then
 	zenity --error --text="${msg[ERR_TMP]}"
@@ -237,7 +237,7 @@ if [[ $? != 0 ]]; then
 	exit 1
 fi
 
-trap "rm -f $fichierTmp" 0 1 2 3 15
+trap "rm -f $fichierTmp $fichierTmp2" 0 1 2 3 15
 
 if [[ -n $@ ]]; then
 	listePdfAreduire=("$@")
@@ -337,6 +337,9 @@ for pdfAreduire in "${listePdfAreduire[@]}"; do
 		continue
 	fi
 	
+	echo -n "$pdfReduit" >> "$fichierTmp2"
+	echo -en "\0" >> "$fichierTmp2"
+	
 	tailleDepart=$(stat --format=%s "$pdfAreduire")
 	tailleDepartFormatee=$(humanReadableSize "$tailleDepart")
 	tailleSortie=$(stat --format=%s "$pdfReduit")
@@ -360,5 +363,13 @@ done | zenity --progress --no-cancel --auto-close --text="${msg[EN_COURS]}"
 zenity --text-info --width=700 --height=500 --filename="$fichierTmp" \
 	--title="${msg[TITRE_RESULTATS]}"
 
-exit 0
+if [[ $? != 0 ]]; then
+	toutLu=false
+	
+	until "$toutLu"; do
+		read -d $'\0' -r fichier || toutLu=true
+		rm -f "$fichier"
+	done < "$fichierTmp2"
+fi
 
+exit 0

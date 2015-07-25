@@ -58,6 +58,8 @@ Supprimer le fichier `pdfmm` précédemment copié dans `/usr/bin/` (nécessite 
 
 - Aucun fichier original n'est modifié. Le fichier optimisé est créé dans le même dossier que le fichier original.
 
+- À la fin de l'opération, une fenêtre apparaît pour lister les fichiers optimisés. En cliquant sur *Valider*, ces fichiers seront conservés; en cliquant sur *Annuler*, ils seront supprimés.
+
 - Un fichier de configuration est créé dans le dossier personnel de l'utilisateur lançant `pdfmm`:
 
 		~/.config/pdfmm.conf
