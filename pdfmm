@@ -324,7 +324,15 @@ for pdfAreduire in "${listePdfAreduire[@]}"; do
 	
 	pdfReduitEchappe=$(echo "$pdfReduit" | sed 's/%/%%/g')
 	
-	gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -dPDFSETTINGS=/default \
+	versionGS=$(gs --version)
+	versionComparaison="9.23"
+	dPassImg="-dPassThroughJPEGImages=false"
+	if [[ "$(printf '%s\n' $versionGS $versionComparaison | sort -V | head -n 1)" != $versionComparaison ]]; then
+		# Version < 9.23
+		dPassImg=""
+	fi
+	
+	gs -dBATCH -dNOPAUSE -q $dPassImg -sDEVICE=pdfwrite -dPDFSETTINGS=/default \
 		-sOutputFile="$pdfReduitEchappe" "$pdfAreduire"
 	
 	if [[ $? != 0 ]]; then
