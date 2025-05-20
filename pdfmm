@@ -3,8 +3,8 @@
 # Ce fichier fait partie de pdfmm.
 # pdfmm est un assistant graphique pour réduire la taille d'un fichier PDF.
 
-# Auteur: Jean-Philippe Fleury <contact@jpfleury.net>
-# Copyright © Jean-Philippe Fleury, 2011-2012, 2014.
+# Auteur: Jean-Philippe Fleury <https://github.com/jpfleury>
+# Copyright © Jean-Philippe Fleury, 2011-2015, 2019, 2025
 
 # Ce programme est un logiciel libre; vous pouvez le redistribuer ou le
 # modifier suivant les termes de la GNU General Public License telle que
@@ -20,19 +20,20 @@
 # ce programme; si ce n'est pas le cas, consultez
 # <http://www.gnu.org/licenses/>.
 
-########################################################################
-##
-## Localisation.
-##
-########################################################################
+################################################################################
+## @title Langues
+################################################################################
 
+# shellcheck disable=SC2059
+
+set -u
+
+code_langue=${LANG:0:2}
 declare -A msg
 
-####################################
-##
-## Français.
-##
-####################################
+########################################
+## @subtitle Français
+########################################
 
 msg[ERR_ZENITY]="Veuillez installer zenity."
 msg[ERR_GS]="Veuillez installer ghostscript."
@@ -40,13 +41,15 @@ msg[ERR_SED]="Veuillez installer sed."
 msg[TITRE_SELECTION]="Sélectionnez les fichiers PDF dont la taille doit être réduite"
 msg[ERR_SELECTION]="Aucun fichier PDF sélectionné."
 msg[ERR_TMP]="Impossible de créer de fichier temporaire."
-msg[TITRE_FICHIER]="=========================\n%s. Fichier «%s»\n========================="
+msg[ERR_DOSSIER]="Impossible de créer le dossier: %s"
+msg[ERR_DEPLACER]="Impossible de déplacer le fichier: %s => %s"
+msg[TITRE_FICHIER]="=========================\n%s. Fichier %s\n========================="
 msg[ERR_FICHIER]="Ce fichier n'existe pas ou n'est pas utilisable."
-msg[FICHIER_EXISTE_QUESTION]="Le fichier suivant existe déjà:\n%s\n\nVoulez-vous l'écraser?"
-msg[FICHIER_EXISTE]="Le fichier «%s» existe déjà."
+msg[FICHIER_EXISTE_QUESTION]="Le fichier existe déjà:\n%s\n\nVoulez-vous l'écraser?"
+msg[FICHIER_EXISTE]="Le fichier existe déjà: %s"
 msg[EN_COURS]="Réduction de la taille en cours."
 msg[ERR_REDUCTION]="Erreur lors de la réduction de la taille du fichier."
-msg[FICHIER_OPTIMISE]="Le fichier optimisé est «%s»."
+msg[FICHIER_OPTIMISE]="Fichier optimisé: %s"
 msg[STATS]="Statistiques:\n- taille de départ: %s\n- taille de sortie: %s\n- pourcentage d'optimisation: %s %%"
 msg[UNIT_0]="o"
 msg[UNIT_1]="Kio"
@@ -55,27 +58,27 @@ msg[UNIT_3]="Gio"
 msg[PROP_SIZE_B]="(%s o)"
 msg[TITRE_RESULTATS]="Résultats"
 
-####################################
-##
-## English.
-##
-####################################
+########################################
+## @subtitle English
+########################################
 
-if [[ ${LANG:0:2} == en ]]; then
+if [[ $code_langue == en ]]; then
 	msg[ERR_ZENITY]="Please install zenity."
 	msg[ERR_GS]="Please install ghostscript."
 	msg[ERR_SED]="Please install sed."
-	msg[TITRE_SELECTION]="Select PDF files to reduce"
+	msg[TITRE_SELECTION]="Select the PDF files to reduce"
 	msg[ERR_SELECTION]="No PDF file selected."
-	msg[ERR_TMP]="Can't create temporary file."
-	msg[TITRE_FICHIER]="=========================\n%s. File \"%s\"\n========================="
-	msg[ERR_FICHIER]="This file doesn't exist or isn't available."
-	msg[FICHIER_EXISTE_QUESTION]="The following file already exists:\n%s\n\nDo you want to overwrite it?"
-	msg[FICHIER_EXISTE]="The file \"%s\" already exists."
-	msg[EN_COURS]="Reduction of the size in progress."
-	msg[ERR_REDUCTION]="Error while reducing the size of the file."
-	msg[FICHIER_OPTIMISE]="The optimized file is \"%s\"."
-	msg[STATS]="Statistics:\n- input size: %s\n- output size: %s\n- optimization percentage: %s %%"
+	msg[ERR_TMP]="Unable to create a temporary file."
+	msg[ERR_DOSSIER]="Unable to create folder: %s"
+	msg[ERR_DEPLACER]="Unable to move file: %s => %s"
+	msg[TITRE_FICHIER]="=========================\n%s. File %s\n========================="
+	msg[ERR_FICHIER]="This file does not exist or cannot be used."
+	msg[FICHIER_EXISTE_QUESTION]="The file already exists:\n%s\n\nDo you want to overwrite it?"
+	msg[FICHIER_EXISTE]="The file already exists: %s"
+	msg[EN_COURS]="Reducing file size..."
+	msg[ERR_REDUCTION]="Error while reducing the file size."
+	msg[FICHIER_OPTIMISE]="Optimized file: %s"
+	msg[STATS]="Statistics:\n- original size: %s\n- reduced size: %s\n- optimization percentage: %s %%"
 	msg[UNIT_0]="B"
 	msg[UNIT_1]="KiB"
 	msg[UNIT_2]="MiB"
@@ -84,20 +87,20 @@ if [[ ${LANG:0:2} == en ]]; then
 	msg[TITRE_RESULTATS]="Results"
 fi
 
-####################################
-##
-## Deutsch.
-##
-####################################
+########################################
+## @subtitle Deutsch
+########################################
 
-if [[ ${LANG:0:2} == de ]]; then
+if [[ $code_langue == de ]]; then
 	msg[ERR_ZENITY]="Bitte installieren Sie zenity."
 	msg[ERR_GS]="Bitte installieren Sie ghostscript."
 	msg[ERR_SED]="Bitte installieren Sie sed."
 	msg[TITRE_SELECTION]="PDF-Datei zum verkleinern auswählen"
 	msg[ERR_SELECTION]="Keine PDF-Datei ausgewählt."
 	msg[ERR_TMP]="Kann keine temporäre Datei erzeugen."
-	msg[TITRE_FICHIER]="=========================\n%s. Datei \"%s\"\n========================="
+	msg[ERR_DOSSIER]="Impossible de créer le dossier: %s"
+	msg[ERR_DEPLACER]="Impossible de déplacer le fichier: %s => %s"
+	msg[TITRE_FICHIER]="=========================\n%s. Datei %s\n========================="
 	msg[ERR_FICHIER]="Diese Datei existiert nicht oder ist nicht verfügbar."
 	msg[FICHIER_EXISTE_QUESTION]="Die Datei existiert bereits:\n%s\n\nÜberschreiben?"
 	msg[FICHIER_EXISTE]="Die Datei \"%s\" existiert bereits."
@@ -113,11 +116,66 @@ if [[ ${LANG:0:2} == de ]]; then
 	msg[TITRE_RESULTATS]="Ergebnis"
 fi
 
-########################################################################
-##
-## Fonctions.
-##
-########################################################################
+################################################################################
+## @title Fonctions
+################################################################################
+
+action_fichiers() {
+	local liste=$1
+	local action=$2
+	
+	local date dossier ext fichier fichier_mm nom_fichier_sans_ext tout_lu
+	
+	# --------------------
+	
+	date=$(date "+%Y-%m-%d_%H-%M-%S-%N")
+	date=${date::-5}
+	tout_lu=false
+	
+	until [[ $tout_lu == true ]]; do
+		read -d $'\0' -r fichier || tout_lu=true
+		
+		if [[ -z $fichier ]]; then
+			continue
+		fi
+		
+		if [[ $action == "deplacer" ]]; then
+			if [[ -z $dossier ]]; then
+				dossier="${fichier%/*}/pdfmm_$date"
+				
+				if [[ ! -e $dossier ]]; then
+					mkdir -p "$dossier"
+				fi
+				
+				if [[ ! -d $dossier ]]; then
+					zenity --error --text="$(printf "${msg[ERR_DOSSIER]}" "$dossier")" 2> /dev/null
+					
+					exit 1
+				fi
+			fi
+			
+			if ! mv "$fichier" "$dossier"; then
+				zenity --error --text="$(printf "${msg[ERR_DEPLACER]}" "$fichier" "$dossier")" 2> /dev/null
+				
+				exit 1
+			fi
+			
+			nom_fichier_sans_ext=${fichier%.*}
+			ext=${fichier##*.}
+			fichier_mm="${nom_fichier_sans_ext}--.${ext}"
+			
+			if [[ -e $fichier_mm && ! -e $fichier ]]; then
+				if ! mv "$fichier_mm" "$fichier"; then
+					zenity --error --text="$(printf "${msg[ERR_DEPLACER]}" "$fichier_mm" "$fichier")" 2> /dev/null
+					
+					exit 1
+				fi
+			fi
+		elif [[ $action == "supprimer" ]]; then
+			rm -f "$fichier"
+		fi
+	done < "$liste"
+}
 
 # Note: le code de cette fonction provient de mon script Corbeille-SpaceFM.
 # Human readable size. I could use "du -bhs", but it rounds up, and passed 10,
@@ -125,30 +183,28 @@ fi
 # by hand to have a better result. Note that Bash doesn't handle floating point
 # arithmetic, so I use integer division and modulo (I could use the command "bc",
 # but it would add another dependency).
-humanReadableSize()
-{
-	fileSize=$1
-	quotient=$fileSize
+human_readable_size() {
+	file_size=$1
+	quotient=$file_size
 	
 	# 0 => B
 	# 1 => KiB
 	# 2 => MiB
 	# and so on
-	unitIndex=-1
+	unit_index=-1
 	
 	while ((quotient > 0)); do
 		((quotient = quotient / 1024))
-		((++unitIndex))
+		((++unit_index))
 	done
 	
-	if ((unitIndex > 0)); then
-		((divisorInBytes = 1024**unitIndex))
-		((quotient1      = fileSize          / $divisorInBytes))
-		((remainder1     = fileSize          % $divisorInBytes))
-		((quotient2      = (remainder1 * 10) / $divisorInBytes))
-		((remainder2     = (remainder1 * 10) % $divisorInBytes))
-		((quotient3      = (remainder2 * 10) / $divisorInBytes))
-		((remainder3     = (remainder2 * 10) % $divisorInBytes))
+	if ((unit_index > 0)); then
+		((divisor_in_bytes = 1024**unit_index))
+		((quotient1        = file_size         / divisor_in_bytes))
+		((remainder1       = file_size         % divisor_in_bytes))
+		((quotient2        = (remainder1 * 10) / divisor_in_bytes))
+		((remainder2       = (remainder1 * 10) % divisor_in_bytes))
+		((quotient3        = (remainder2 * 10) / divisor_in_bytes))
 		
 		# Rounding the first decimal.
 		if ((quotient3 >= 5)); then
@@ -160,45 +216,43 @@ humanReadableSize()
 			fi
 		fi
 		
-		decimalSeparator=.
+		decimal_separator=.
 		
 		# Make the decimal separator to follow locale.
 		if type locale > /dev/null 2>&1; then
-			lcNumeric=$(locale -k LC_NUMERIC)
+			lc_numeric=$(locale -k LC_NUMERIC)
 			
-			if [[ $lcNumeric =~ decimal_point=\"(.)\" ]]; then
-				decimalSeparator=${BASH_REMATCH[1]}
+			if [[ $lc_numeric =~ decimal_point=\"(.)\" ]]; then
+				decimal_separator=${BASH_REMATCH[1]}
 			fi
 		fi
 		
-		humanReadableSize=$quotient1$decimalSeparator$quotient2
+		human_readable_size=$quotient1$decimal_separator$quotient2
 	else
-		unitIndex=0 # In case we have a negative index.
-		humanReadableSize=$fileSize
+		unit_index=0 # In case we have a negative index.
+		human_readable_size=$file_size
 	fi
 	
-	printf "$humanReadableSize ${msg[UNIT_$unitIndex]}"
+	printf "$human_readable_size ${msg[UNIT_$unit_index]}"
 	
-	if ((unitIndex > 0)); then
-		printf " ${msg[PROP_SIZE_B]}" "$fileSize"
+	if ((unit_index > 0)); then
+		printf " ${msg[PROP_SIZE_B]}" "$file_size"
 	fi
 }
 
-########################################################################
-##
-## Dépendances.
-##
-########################################################################
+################################################################################
+## @title Dépendances
+################################################################################
 
-cheminConfig=$HOME/.config/pdfmm.conf
-ancienCheminConfig=$HOME/.pdfmm.conf
+chemin_config=$HOME/.config/pdfmm.conf
+ancien_chemin_config=$HOME/.pdfmm.conf
 
-if [[ -e $ancienCheminConfig && ! -e $cheminConfig ]]; then
-	mv "$ancienCheminConfig" "$cheminConfig"
-elif [[ -e $ancienCheminConfig && -e $cheminConfig ]]; then
-	rm -f "$ancienCheminConfig"
-elif [[ ! -e $cheminConfig ]]; then
-	echo "dossier=" > "$cheminConfig"
+if [[ -e $ancien_chemin_config && ! -e $chemin_config ]]; then
+	mv "$ancien_chemin_config" "$chemin_config"
+elif [[ -e $ancien_chemin_config && -e $chemin_config ]]; then
+	rm -f "$ancien_chemin_config"
+elif [[ ! -e $chemin_config ]]; then
+	echo "dossier=" > "$chemin_config"
 fi
 
 if ! type -p zenity > /dev/null; then
@@ -212,172 +266,228 @@ if ! type -p zenity > /dev/null; then
 fi
 
 if ! type -p gs > /dev/null; then
-	zenity --error --text="${msg[ERR_GS]}"
+	zenity --error --text="${msg[ERR_GS]}" 2> /dev/null
 	
 	exit 1
 fi
 
 if ! type -p sed > /dev/null; then
-	zenity --error --text="${msg[ERR_SED]}"
+	zenity --error --text="${msg[ERR_SED]}" 2> /dev/null
 	
 	exit 1
 fi
 
-########################################################################
-##
-## Code principal.
-##
-########################################################################
+################################################################################
+## @title Code principal
+################################################################################
 
-fichierTmp=$(mktemp) && fichierTmp2=$(mktemp)
+fichier_tmp_resultats=$(mktemp)
+fichier_tmp_fichiers_a_reduire=$(mktemp)
+fichier_tmp_fichiers_reduits=$(mktemp)
+fichier_tmp_fichiers_inutiles=$(mktemp)
 
-if [[ $? != 0 ]]; then
-	zenity --error --text="${msg[ERR_TMP]}"
+if [[ ! -f $fichier_tmp_resultats || ! -f $fichier_tmp_fichiers_a_reduire || \
+	! -f $fichier_tmp_fichiers_reduits || ! -f $fichier_tmp_fichiers_inutiles ]]; then
+	zenity --error --text="${msg[ERR_TMP]}" 2> /dev/null
 	
 	exit 1
 fi
 
-trap "rm -f $fichierTmp $fichierTmp2" 0 1 2 3 15
+# shellcheck disable=SC2064
+trap "rm -f \"$fichier_tmp_resultats\" \"$fichier_tmp_fichiers_a_reduire\" \
+\"$fichier_tmp_fichiers_reduits\" \"$fichier_tmp_fichiers_inutiles\"" 0 1 2 3 15
 
-if [[ -n $@ ]]; then
-	listePdfAreduire=("$@")
-else
-	dossier=$(sed -n "s/^dossier=\(.*\)$/\1/p" < "$cheminConfig")
+liste_pdf_a_reduire=("$@")
+confirmer_automatiquement=false
+deplacer=false
+dernier_element=""
+
+if (( ${#liste_pdf_a_reduire} > 1 )); then
+	dernier_element=${liste_pdf_a_reduire[-1]}
+fi
+
+if [[ $dernier_element == "d" || $dernier_element == "y" || $dernier_element == "dy" ]]; then
+	liste_pdf_a_reduire=("${liste_pdf_a_reduire[@]::${#liste_pdf_a_reduire[@]}-1}")
+	
+	if [[ $dernier_element == "d" || $dernier_element == "dy" ]]; then
+		deplacer=true
+	fi
+	
+	if [[ $dernier_element == "y" || $dernier_element == "dy" ]]; then
+		confirmer_automatiquement=true
+	fi
+fi
+
+if [[ -z ${liste_pdf_a_reduire[*]} ]]; then
+	dossier=$(sed -n "s/^dossier=\(.*\)$/\1/p" < "$chemin_config")
 	
 	if [[ -z $dossier ]]; then
 		dossier=$HOME
 	fi
 	
-	selectionZenity=$(zenity --file-selection --multiple --separator="//" \
-		--filename="$dossier/" --title="${msg[TITRE_SELECTION]}")
-	
-	if [[ $? != 0 ]]; then
-		zenity --error --text="${msg[ERR_SELECTION]}"
+	if ! selection_zenity=$(zenity --file-selection --multiple --separator="//" --filename="$dossier/" \
+	                        --title="${msg[TITRE_SELECTION]}" 2> /dev/null); then
+		zenity --error --text="${msg[ERR_SELECTION]}" 2> /dev/null
 		
 		exit 1
 	fi
 	
-	listePdfAreduire=()
+	liste_pdf_a_reduire=()
 	
-	while [[ -n $selectionZenity ]]; do
-		listePdfAreduire+=("${selectionZenity%%//*}")
-		ancienneSelectionZenity=$selectionZenity
-		selectionZenity=${selectionZenity#*//}
+	while [[ -n $selection_zenity ]]; do
+		liste_pdf_a_reduire+=("${selection_zenity%%//*}")
+		ancienne_selection_zenity=$selection_zenity
+		selection_zenity=${selection_zenity#*//}
 		
-		if [[ $selectionZenity == $ancienneSelectionZenity ]]; then
-			selectionZenity=
+		if [[ $selection_zenity == "$ancienne_selection_zenity" ]]; then
+			selection_zenity=
 		fi
 	done
 fi
 
-configMiseAJour=false
+config_mise_a_jour=false
 compteur=1
-((increment = 100 / ${#listePdfAreduire[@]}))
+((increment = 100 / ${#liste_pdf_a_reduire[@]}))
 pourcentage=0
 
-for pdfAreduire in "${listePdfAreduire[@]}"; do
+for pdf_a_reduire in "${liste_pdf_a_reduire[@]}"; do
 	echo "$pourcentage"
-	printf "${msg[TITRE_FICHIER]}" "$compteur" "$pdfAreduire" >> "$fichierTmp"
-	echo -e "\n" >> "$fichierTmp"
+	printf "${msg[TITRE_FICHIER]}" "$compteur" "$pdf_a_reduire" >> "$fichier_tmp_resultats"
+	echo -e "\n" >> "$fichier_tmp_resultats"
 	
 	((compteur++))
 	((pourcentage += increment))
 	
-	if [[ ! -f $pdfAreduire ]]; then
-		echo "${msg[ERR_FICHIER]}" >> "$fichierTmp"
-		echo >> "$fichierTmp"
+	if [[ ! -f $pdf_a_reduire ]]; then
+		echo "${msg[ERR_FICHIER]}" >> "$fichier_tmp_resultats"
+		echo >> "$fichier_tmp_resultats"
+		
 		continue
 	fi
 	
 	# Mise à jour de la configuration.
-	if [[ $configMiseAJour == false ]]; then
-		dossier=$(dirname "$pdfAreduire")
+	if [[ $config_mise_a_jour == false ]]; then
+		dossier=$(dirname "$pdf_a_reduire")
 		
 		# On s'assure d'avoir un chemin absolu.
 		if [[ $dossier != /* ]]; then
 			dossier=$(pwd)/$dossier
 		fi
 		
-		sed -i "s|^\(dossier=\).*$|\1$dossier|" "$cheminConfig"
-		configMiseAJour=true
+		sed -i "s|^\(dossier=\).*$|\1$dossier|" "$chemin_config"
+		config_mise_a_jour=true
 	fi
 	
 	# Si elle existe, l'extension est récupérée pour conserver sa casse («pdf» ou «PDF»).
-	nomFichier=$(basename "$pdfAreduire")
-	ext=${nomFichier##*.}
+	nom_fichier=$(basename "$pdf_a_reduire")
+	ext=${nom_fichier##*.}
 	
-	if [[ $ext != $nomFichier ]]; then
-		pdfReduit=$(echo "$pdfAreduire" | sed "s/\.$ext$/--.$ext/")
+	if [[ $ext != "$nom_fichier" ]]; then
+		pdf_reduit="${pdf_a_reduire%.*}--.$ext"
 	else
-		pdfReduit=$pdfAreduire--
+		pdf_reduit="${pdf_a_reduire}--"
 	fi
 	
-	if [[ -f $pdfReduit ]]; then
-		zenity --question --text="$(printf "${msg[FICHIER_EXISTE_QUESTION]}" "$pdfReduit")"
+	if [[ -f $pdf_reduit ]]; then
+		zenity --question --text="$(printf "${msg[FICHIER_EXISTE_QUESTION]}" "$pdf_reduit")" 2> /dev/null
 		
 		if [[ $? == 1 ]]; then
-			printf "${msg[FICHIER_EXISTE]}" "$pdfReduit" >> "$fichierTmp"
-			echo -e "\n" >> "$fichierTmp"
+			printf "${msg[FICHIER_EXISTE]}" "$pdf_reduit" >> "$fichier_tmp_resultats"
+			echo -e "\n" >> "$fichier_tmp_resultats"
+			
 			continue
 		fi
 	fi
 	
-	pdfReduitEchappe=$(echo "$pdfReduit" | sed 's/%/%%/g')
+	version_gs=$(gs --version)
+	version_comparaison="9.23"
+	d_pass_img="-dPassThroughJPEGImages=false"
 	
-	versionGS=$(gs --version)
-	versionComparaison="9.23"
-	dPassImg="-dPassThroughJPEGImages=false"
-	if [[ "$(printf '%s\n' $versionGS $versionComparaison | sort -V | head -n 1)" != $versionComparaison ]]; then
+	if [[ "$(printf '%s\n' "$version_gs" "$version_comparaison" | sort -V | head -n 1)" != "$version_comparaison" ]]; then
 		# Version < 9.23
-		dPassImg=""
+		d_pass_img=""
 	fi
 	
-	gs -dBATCH -dNOPAUSE -q $dPassImg -sDEVICE=pdfwrite -dPDFSETTINGS=/default \
-		-sOutputFile="$pdfReduitEchappe" "$pdfAreduire"
+	# @todo Tester si ce palliatif est encore nécessaire.
+	utiliser_cat_avec_gs=true
 	
-	if [[ $? != 0 ]]; then
-		if [[ -f $pdfReduit ]]; then
-			rm -f "$pdfReduit"
+	if [[ $utiliser_cat_avec_gs == true ]]; then
+		# shellcheck disable=SC2002
+		cat "$pdf_a_reduire" | gs -dBATCH -dNOPAUSE -q $d_pass_img -sDEVICE=pdfwrite \
+		                          -dPDFSETTINGS=/default -sOutputFile=- - > "$pdf_reduit"
+		code_sortie_gs=$?
+	else
+		pdf_reduit_echappe=${pdf_reduit//%/%%}
+		gs -dBATCH -dNOPAUSE -q $d_pass_img -sDEVICE=pdfwrite -dPDFSETTINGS=/default \
+		   -sOutputFile="$pdf_reduit_echappe" "$pdf_a_reduire"
+		code_sortie_gs=$?
+	fi
+	
+	if [[ $code_sortie_gs != 0 ]]; then
+		if [[ -f $pdf_reduit ]]; then
+			rm -f "$pdf_reduit"
 		fi
 		
-		echo "${msg[ERR_REDUCTION]}" >> "$fichierTmp"
-		echo >> "$fichierTmp"
+		echo "${msg[ERR_REDUCTION]}" >> "$fichier_tmp_resultats"
+		echo >> "$fichier_tmp_resultats"
+		
 		continue
 	fi
 	
-	echo -n "$pdfReduit" >> "$fichierTmp2"
-	echo -en "\0" >> "$fichierTmp2"
+	taille_depart=$(stat --format=%s "$pdf_a_reduire")
+	taille_depart_formatee=$(human_readable_size "$taille_depart")
+	taille_sortie=$(stat --format=%s "$pdf_reduit")
+	taille_sortie_formatee=$(human_readable_size "$taille_sortie")
 	
-	tailleDepart=$(stat --format=%s "$pdfAreduire")
-	tailleDepartFormatee=$(humanReadableSize "$tailleDepart")
-	tailleSortie=$(stat --format=%s "$pdfReduit")
-	tailleSortieFormatee=$(humanReadableSize "$tailleSortie")
-	
-	if ((tailleDepart > 0)); then
-		pourcentageOptimisation=$(( ((tailleDepart - tailleSortie) * 100) / tailleDepart ))
+	if ((taille_depart > 0)); then
+		pourcentage_optimisation=$(( ((taille_depart - taille_sortie) * 100) / taille_depart ))
 	fi
 	
-	if [[ -z $pourcentageOptimisation ]]; then
-		pourcentageOptimisation=0
+	if [[ -z $pourcentage_optimisation ]]; then
+		pourcentage_optimisation=0
 	fi
 	
-	printf "${msg[FICHIER_OPTIMISE]}" "$pdfReduit" >> "$fichierTmp"
-	echo -e "\n" >> "$fichierTmp"
-	printf "${msg[STATS]}" "$tailleDepartFormatee" "$tailleSortieFormatee" \
-		"$pourcentageOptimisation" >> "$fichierTmp"
-	echo -e "\n" >> "$fichierTmp"
-done | zenity --progress --no-cancel --auto-close --text="${msg[EN_COURS]}"
-
-zenity --text-info --width=700 --height=500 --filename="$fichierTmp" \
-	--title="${msg[TITRE_RESULTATS]}"
-
-if [[ $? != 0 ]]; then
-	toutLu=false
+	{
+		printf "${msg[FICHIER_OPTIMISE]}" "$pdf_reduit"
+		echo $'\n'
+		printf "${msg[STATS]}" "$taille_depart_formatee" "$taille_sortie_formatee" "$pourcentage_optimisation"
+		echo $'\n'
+	} >> "$fichier_tmp_resultats"
 	
-	until "$toutLu"; do
-		read -d $'\0' -r fichier || toutLu=true
-		rm -f "$fichier"
-	done < "$fichierTmp2"
+	{
+		echo -n "$pdf_reduit"
+		echo -en "\0"
+	} >> "$fichier_tmp_fichiers_reduits"
+	
+	if (( taille_sortie >= taille_depart )); then
+		{
+			echo -n "$pdf_reduit"
+			echo -en "\0"
+		} >> "$fichier_tmp_fichiers_inutiles"
+	else
+		{
+			echo -n "$pdf_a_reduire"
+			echo -en "\0"
+		} >> "$fichier_tmp_fichiers_a_reduire"
+	fi
+done | zenity --progress --no-cancel --auto-close --text="${msg[EN_COURS]}" 2> /dev/null
+
+code_retour=0
+
+if [[ $confirmer_automatiquement == false ]]; then
+	zenity --text-info --width=700 --height=500 --filename="$fichier_tmp_resultats" \
+	       --title="${msg[TITRE_RESULTATS]}" 2> /dev/null
+	code_retour=$?
+fi
+
+if [[ $confirmer_automatiquement == true || $code_retour == 0 ]]; then
+	action_fichiers "$fichier_tmp_fichiers_inutiles" "supprimer"
+else
+	action_fichiers "$fichier_tmp_fichiers_reduits" "supprimer"
+fi
+
+if [[ $code_retour == 0 && $deplacer == true ]]; then
+	action_fichiers "$fichier_tmp_fichiers_a_reduire" "deplacer"
 fi
 
 exit 0
