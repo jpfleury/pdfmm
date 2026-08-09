@@ -302,7 +302,7 @@ confirmer_automatiquement=false
 deplacer=false
 dernier_element=""
 
-if (( ${#liste_pdf_a_reduire} > 1 )); then
+if (( ${#liste_pdf_a_reduire[@]} > 1 )); then
 	dernier_element=${liste_pdf_a_reduire[-1]}
 fi
 
@@ -318,7 +318,7 @@ if [[ $dernier_element == "d" || $dernier_element == "y" || $dernier_element == 
 	fi
 fi
 
-if [[ -z ${liste_pdf_a_reduire[*]} ]]; then
+if (( ${#liste_pdf_a_reduire[@]} == 0 )); then
 	dossier=$(sed -n "s/^dossier=\(.*\)$/\1/p" < "$chemin_config")
 	
 	if [[ -z $dossier ]]; then
