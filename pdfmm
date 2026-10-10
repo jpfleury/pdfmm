@@ -116,6 +116,35 @@ if [[ $code_langue == de ]]; then
 	msg[TITRE_RESULTATS]="Ergebnis"
 fi
 
+########################################
+## @subtitle Português (Brasil)
+########################################
+
+if [[ $code_langue == pt ]]; then
+        msg[ERR_ZENITY]="Instale o zenity."
+        msg[ERR_GS]="Instale o ghostscript."
+        msg[ERR_SED]="Instale o sed."
+        msg[TITRE_SELECTION]="Selecione os arquivos PDF cujo tamanho deve ser reduzido"
+        msg[ERR_SELECTION]="Nenhum arquivo PDF selecionado."
+        msg[ERR_TMP]="Não foi possível criar um arquivo temporário."
+        msg[ERR_DOSSIER]="Não foi possível criar a pasta: %s"
+        msg[ERR_DEPLACER]="Não foi possível mover o arquivo: %s => %s"
+        msg[TITRE_FICHIER]="=========================\n%s. Arquivo %s\n========================="
+        msg[ERR_FICHIER]="Este arquivo não existe ou não pode ser utilizado."
+        msg[FICHIER_EXISTE_QUESTION]="O arquivo já existe:\n%s\n\nDeseja substituí-lo?"
+        msg[FICHIER_EXISTE]="O arquivo já existe: %s"
+        msg[EN_COURS]="Reduzindo o tamanho do arquivo..."
+        msg[ERR_REDUCTION]="Erro ao reduzir o tamanho do arquivo."
+        msg[FICHIER_OPTIMISE]="Arquivo otimizado: %s"
+        msg[STATS]="Estatísticas:\n- tamanho original: %s\n- tamanho reduzido: %s\n- porcentagem de otimização: %s %%"
+        msg[UNIT_0]="B"
+        msg[UNIT_1]="KiB"
+        msg[UNIT_2]="MiB"
+        msg[UNIT_3]="GiB"
+        msg[PROP_SIZE_B]="(%s B)"
+        msg[TITRE_RESULTATS]="Resultados"
+fi
+
 ################################################################################
 ## @title Fonctions
 ################################################################################
